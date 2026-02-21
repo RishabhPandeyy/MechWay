@@ -1,0 +1,39 @@
+{
+  "contacts": [
+    {
+      "id": "Il8gdfLyOjo188G59-wVO",
+      "created_at": "2026-01-31T05:43:25.445Z",
+      "name": "Test User",
+      "phone": "9794575236",
+      "email": "test@test.com",
+      "subject": "Test",
+      "message": "This is a test message"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "CIiv2U78ejv1KfICf28Q5",
+      "created_at": "2026-01-31T05:43:36.657Z",
+      "name": "John Doe",
+      "phone": "9876543210",
+      "vehicleType": "Car",
+      "vehicleBrand": "Maruti Suzuki",
+      "vehicleModel": "Swift 2020",
+      "problem": "Battery Issue",
+      "message": "Car not starting in Civil Lines",
+      "latitude": "",
+      "longitude": ""
+    }
+  ],
+  "inquiries": [
+    {
+      "id": "F0sMKOx4_v2Ruh-T0omr4",
+      "created_at": "2026-01-31T05:43:53.561Z",
+      "product_id": "",
+      "product_name": "Synthetic Car Engine Oil (5W-30)",
+      "name": "Mike Sharma",
+      "phone": "9123456789",
+      "message": "Interested in buying 2 bottles"
+    }
+  ]
+}
