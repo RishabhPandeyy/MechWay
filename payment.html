@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Service Payment - MechWay</title>
+
+<meta name="description" content="Complete your service payment with MechWay. View the price breakdown, choose your payment method, and see service costs.">
+
+<meta name="author" content="MechWay Mechanic">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="canonical" href="https://www.mechwaymechanic.com/service-payment.html">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* --- Premium Variables & General Styling --- */
+:root {
+--primary-color: #00A3FF;
+--primary-glow: rgba(0, 163, 255, 0.3);
+--dark-navy: #0A192F;
+--light-navy: #112240;
+--slate: #8892b0;
+--light-slate: #a8b2d1;
+--white: #e6f1ff;
+--font-family: 'Poppins', sans-serif;
+--border-radius: 12px;
+--transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+font-family: var(--font-family);
+line-height: 1.6;
+color: var(--slate);
+overflow-x: hidden;
+background: linear-gradient(rgba(10, 25, 47, 0.97), rgba(10, 25, 47, 0.97)), url('service.jpg') no-repeat center center/cover;
+background-attachment: fixed;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* --- Navbar Styling --- */
+.navbar { background: transparent; padding: 1.5rem 5%; position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.3s ease-in-out; }
+.navbar.scrolled { background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); padding: 0.8rem 5%; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+.navbar-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+.navbar-logo { color: var(--white); font-size: 1.8rem; font-weight: 700; text-decoration: none; }
+.navbar-menu { display: flex; align-items: center; list-style: none; gap: 2rem; }
+.navbar-link { color: var(--light-slate); text-decoration: none; transition: var(--transition); }
+.navbar-link:hover, .navbar-link.active { color: var(--primary-color); }
+.call-now-button { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border: 1px solid var(--primary-color); border-radius: var(--border-radius); color: var(--primary-color); text-decoration: none; transition: var(--transition); }
+.call-now-button:hover { background-color: var(--primary-glow); box-shadow: 0 0 15px var(--primary-glow); }
+.hamburger { display: none; color: var(--white); font-size: 1.8rem; cursor: pointer; }
+
+/* --- Payment Section Styling --- */
+.payment-section {
+padding: 8rem 5% 6rem;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+animation: fadeInPage 0.5s ease-in-out;
+margin-top: 60px;
+}
+.payment-container {
+background-color: var(--light-navy);
+padding: 3.5rem 3rem;
+border-radius: var(--border-radius);
+width: 100%;
+max-width: 750px;
+text-align: center;
+box-shadow: 0 10px 40px -15px rgba(0,0,0,0.7);
+border: 1px solid transparent;
+background-image: linear-gradient(var(--light-navy), var(--light-navy)),
+radial-gradient(circle at top left, var(--primary-color), var(--dark-navy) 70%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
+}
+.payment-title { font-size: 2.5rem; color: var(--white); margin-bottom: 0.75rem; }
+.payment-subtitle { color: var(--light-slate); margin-bottom: 2.5rem; }
+
+.form-group { margin-bottom: 1.5rem; text-align: left; position: relative; }
+.form-group label { display: block; color: var(--light-slate); margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 500; }
+.input-icon { position: absolute; left: 1rem; top: 60%; color: var(--slate); transition: var(--transition); font-size: 1rem; }
+.form-input {
+width: 100%;
+padding: 0.9rem 1rem 0.9rem 2.8rem;
+background-color: var(--dark-navy);
+border: 1px solid #1d2d44;
+border-radius: 8px;
+color: var(--white);
+font-size: 1rem;
+transition: var(--transition);
+}
+.form-input::placeholder { color: var(--slate); opacity: 0.7; }
+.form-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--primary-glow); }
+.form-input:focus ~ .input-icon { color: var(--primary-color); }
+.form-select {
+-webkit-appearance: none; -moz-appearance: none; appearance: none;
+background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238892b0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+background-repeat: no-repeat;
+background-position: right 1rem center;
+background-size: 1em;
+padding-right: 3rem;
+}
+
+/* Customer Details Section */
+.customer-details {
+background-color: var(--dark-navy);
+padding: 1.5rem;
+border-radius: 8px;
+margin-bottom: 2rem;
+border: 1px solid #1d2d44;
+text-align: left;
+}
+.customer-details h3 {
+color: var(--white);
+margin-bottom: 1rem;
+font-size: 1.2rem;
+}
+.customer-info {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1rem;
+}
+.customer-info-item {
+display: flex;
+flex-direction: column;
+}
+.customer-info-label {
+color: var(--slate);
+font-size: 0.85rem;
+margin-bottom: 0.25rem;
+}
+.customer-info-value {
+color: var(--white);
+font-weight: 600;
+font-size: 1rem;
+}
+
+/* Service Details Section */
+.service-details {
+background-color: var(--dark-navy);
+padding: 1.5rem;
+border-radius: 8px;
+margin-bottom: 2rem;
+border: 1px solid #1d2d44;
+text-align: left;
+}
+.service-details h3 {
+color: var(--white);
+margin-bottom: 1rem;
+font-size: 1.2rem;
+}
+.service-info {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1rem;
+}
+
+/* Price Breakdown Styling */
+.price-breakdown {
+margin: 2rem 0; padding: 1.5rem; background-color: var(--dark-navy);
+border-radius: 8px; text-align: left; border: 1px solid #1d2d44;
+}
+.price-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--light-slate); font-size: 1rem; }
+.price-item span:last-child { font-weight: 600; color: var(--white); }
+.total-amount { border-top: 1px solid #1d2d44; padding-top: 1rem; margin-top: 1rem; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+
+/* Payment Options Styling */
+.payment-options { margin-top: 2rem; text-align: left; }
+.payment-option { background-color: var(--dark-navy); border: 1px solid #1d2d44; border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 1rem; }
+.payment-option:hover { border-color: var(--primary-color); }
+.payment-option.selected { border-color: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow); }
+.payment-option input[type="radio"] { display: none; }
+.payment-option .icon { font-size: 1.5rem; color: var(--primary-color); }
+.payment-option .details h4 { color: var(--white); font-weight: 600; }
+.payment-option .details p { font-size: 0.9rem; color: var(--slate); }
+.disabled { opacity: 0.5; cursor: not-allowed; }
+.disabled:hover { border-color: #1d2d44; }
+
+.form-button { width: 100%; padding: 0.9rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: var(--transition); cursor: pointer; background-color: var(--primary-color); color: var(--dark-navy); border: none; margin-top: 1rem; }
+.form-button:hover { transform: translateY(-3px); box-shadow: 0 0 25px var(--primary-glow); }
+.form-button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+/* Utility class for hiding elements */
+.hidden { display: none; }
+
+@keyframes fadeInPage { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Footer and Responsive Design */
+.main-footer { background-color: transparent; padding: 4rem 5% 2rem; border-top: 1px solid var(--light-navy); margin-top: 4rem; }
+.footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; text-align: center; }
+.footer-section h4 { color: var(--white); font-size: 1.2rem; margin-bottom: 1rem; }
+.footer-section a { color: var(--slate); text-decoration: none; display: block; margin-bottom: 0.5rem; transition: var(--transition); }
+.footer-section a:hover { color: var(--primary-color); }
+.trust-badges { display: flex; gap: 1rem; justify-content: center; }
+.trust-badges img { height: 40px; }
+.footer-bottom { text-align: center; border-top: 1px solid #1d2d44; padding-top: 2rem; }
+.social-links { margin-top: 1rem; }
+.social-links a { color: var(--slate); font-size: 1.5rem; margin: 0 0.5rem; }
+.social-links a:hover { color: var(--primary-color); }
+
+@media (max-width: 768px) {
+    .navbar-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; flex-direction: column; background-color: var(--light-navy); text-align: center; padding: 2rem 0; gap: 1.5rem; }
+    .navbar-menu.active { display: flex; }
+    .hamburger { display: block; }
+    .payment-section { padding: 8rem 5% 4rem; }
+    .payment-container { padding: 2.5rem 1.5rem; }
+    .payment-title { font-size: 2rem; }
+    .customer-info, .service-info { grid-template-columns: 1fr; }
+}
+@media (min-width: 768px) { .trust-badges { justify-content: flex-start; } .footer-content { text-align: left; } }
+</style>
+</head>
+<body>
+    
+<header class="navbar" id="main-navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">MechWay</a>
+        <div class="hamburger" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        <nav class="navbar-menu" id="nav-menu">
+            <a href="index.html" class="navbar-link">Home</a>
+            <a href="service.html" class="navbar-link">Services</a>
+            <a href="mechanic.html" class="navbar-link">Book a Mechanic</a>
+            <a href="tel:+919794575236" class="call-now-button"><i class="fas fa-phone"></i>Book Via Call</a>
+        </nav>
+    </div>
+</header>
+
+<section class="payment-section">
+    <div class="payment-container">
+        <h1 class="payment-title">Service Payment</h1>
+        <p class="payment-subtitle">Review your service details and complete payment.</p>
+
+        <!-- Customer Details Section -->
+        <div class="customer-details" id="customer-details">
+            <h3><i class="fas fa-user"></i> Customer Details</h3>
+            <div class="customer-info">
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Name</span>
+                    <span class="customer-info-value" id="customer-name">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Phone</span>
+                    <span class="customer-info-value" id="customer-phone">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Details Section -->
+        <div class="service-details" id="service-details">
+            <h3><i class="fas fa-wrench"></i> Service Details</h3>
+            <div class="service-info">
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Vehicle Type</span>
+                    <span class="customer-info-value" id="service-vehicle-type">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Vehicle Brand</span>
+                    <span class="customer-info-value" id="service-vehicle-brand">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Model & Year</span>
+                    <span class="customer-info-value" id="service-vehicle-model">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Vehicle Number</span>
+                    <span class="customer-info-value" id="service-vehicle-number">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Vehicle Color</span>
+                    <span class="customer-info-value" id="service-vehicle-color">Loading...</span>
+                </div>
+                <div class="customer-info-item">
+                    <span class="customer-info-label">Service Required</span>
+                    <span class="customer-info-value" id="service-required">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="payment-form" action="#" method="POST">
+            <!-- Vehicle Type (Pre-filled and disabled) -->
+            <div class="form-group">
+                <label for="vehicle-type">Vehicle Type</label>
+                <i class="fas fa-car input-icon"></i>
+                <select id="vehicle-type" name="vehicle-type" class="form-input form-select" required disabled>
+                    <option value="" disabled>Select vehicle type</option>
+                    <option value="Car">Car</option>
+                    <option value="Bike">Bike</option>
+                </select>
+            </div>
+
+            <!-- Service Performed (Pre-filled) -->
+            <div class="form-group">
+                <label for="service-performed">Service Performed</label>
+                <i class="fas fa-wrench input-icon"></i>
+                <select id="service-performed" name="service-performed" class="form-input form-select" required disabled>
+                    <option value="" disabled>Choose a service...</option>
+                    <optgroup label="Car Services">
+                        <option value="Full Service (Oil, Filters)">Full Service (Oil, Filters)</option>
+                        <option value="Battery Replacement">Battery Replacement</option>
+                        <option value="Brake Pad Replacement">Brake Pad Replacement</option>
+                        <option value="AC Gas Refill">AC Gas Refill</option>
+                        <option value="Tire Puncture Repair">Tire Puncture Repair</option>
+                        <option value="Clutch Assembly Replacement">Clutch Assembly Replacement</option>
+                    </optgroup>
+                    <optgroup label="Bike Services">
+                        <option value="General Service (Oil, Wash)">General Service (Oil, Wash)</option>
+                        <option value="Chain Cleaning & Lube">Chain Cleaning & Lube</option>
+                        <option value="Brake Shoe/Pad Replacement">Brake Shoe/Pad Replacement</option>
+                        <option value="Carburetor Cleaning">Carburetor Cleaning</option>
+                        <option value="Bike Puncture Repair">Puncture Repair</option>
+                        <option value="Clutch Cable Replacement">Clutch Cable Replacement</option>
+                    </optgroup>
+                    <option value="other">-- Other (Please Specify) --</option>
+                </select>
+            </div>
+
+            <!-- "Other" text input, hidden by default -->
+            <div class="form-group hidden" id="other-service-group">
+                <label for="other-service-details">Specify Other Service</label>
+                <i class="fas fa-edit input-icon"></i>
+                <input type="text" id="other-service-details" name="other-service-details" class="form-input" placeholder="e.g., Headlight bulb change">
+            </div>
+
+            <!-- Pricing (Auto-calculated) -->
+            <div class="form-group">
+                <label for="service-price">Service Price (INR)</label>
+                <i class="fas fa-rupee-sign input-icon"></i>
+                <input type="number" id="service-price" name="service-price" class="form-input" required placeholder="Auto-calculated based on service">
+            </div>
+            
+
+            <div class="price-breakdown">
+                <div class="price-item"><span>Visiting Charge</span><span id="display-service-price">₹0.00</span></div>
+                <div class="price-item total-amount"><span>Total Payable</span><span id="display-total-amount">₹0.00</span></div>
+                <p style="font-size: 0.8rem; color: var(--slate); margin-top: 1rem; text-align: center;">
+                    * Additional parts/repair costs will be charged separately after mechanic's inspection
+                </p>
+            </div>
+
+
+            <!-- Payment Options -->
+            <div class="payment-options">
+                <label class="payment-option" id="cash-option">
+                    <input type="radio" name="payment-method" value="cash" checked>
+                    <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="details">
+                        <h4>Pay with Cash</h4>
+                        <p>Pay the total amount directly to the mechanic.</p>
+                    </div>
+                </label>
+                <label class="payment-option online-payment-btn disabled" id="online-option">
+                    <input type="radio" name="payment-method" value="online" disabled>
+                    <div class="icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="details">
+                        <h4>Pay Online (UPI, Cards)</h4>
+                        <p>Click to activate and integrate Razorpay.</p>
+                    </div>
+                </label>
+            </div>
+            
+            <button type="submit" class="form-button">Confirm & Complete Payment</button>
+        </form>
+    </div>
+</section>
+
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section"><h4>MechWay Mechanic</h4><p>Your trusted partner for 24/7 mobile auto repair and maintenance in Prayagraj.</p></div>
+            <div class="footer-section"><h4>Quick Links</h4><a href="about.html">About Us</a><a href="service.html">Services</a><a href="service.html">Service Area</a><a href="contact.html">Contact</a></div>
+            <div class="footer-section"><h4>Our Promise</h4><div class="trust-badges"><img src="https://via.placeholder.com/80x50/FFFFFF/0A192F?text=ASE" alt="ASE Certified Badge"><img src="https://via.placeholder.com/80x50/FFFFFF/0A192F?text=24/7" alt="24/7 Service Badge"></div></div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 MechWay Mechanic. All rights reserved.</p>
+            <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.getElementById('main-navbar');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    const paymentForm = document.getElementById('payment-form');
+    
+    // --- Navbar & Mobile Menu Logic ---
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    }
+    if (mobileMenu && navMenu) {
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // --- Parse URL Parameters ---
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get customer and service details from URL
+    const customerName = urlParams.get('name') || 'Customer';
+    const customerPhone = urlParams.get('phone') || 'N/A';
+    const vehicleType = urlParams.get('vehicleType') || '';
+    const vehicleBrand = urlParams.get('vehicleBrand') || '';
+    const vehicleModel = urlParams.get('vehicleModel') || '';
+    const vehicleNumber = urlParams.get('vehicleNumber') || '';
+    const vehicleColor = urlParams.get('vehicleColor') || '';
+    const service = urlParams.get('service') || '';
+    const servicePrice = parseInt(urlParams.get('servicePrice')) || 0;
+    const message = urlParams.get('message') || '';
+
+    // Update customer details section
+    document.getElementById('customer-name').textContent = customerName;
+    document.getElementById('customer-phone').textContent = customerPhone;
+    
+    // Update service details section
+    document.getElementById('service-vehicle-type').textContent = vehicleType || 'Not specified';
+    document.getElementById('service-vehicle-brand').textContent = vehicleBrand || 'Not specified';
+    document.getElementById('service-vehicle-model').textContent = vehicleModel || 'Not specified';
+    document.getElementById('service-vehicle-number').textContent = vehicleNumber || 'Not specified';
+    document.getElementById('service-vehicle-color').textContent = vehicleColor || 'Not specified';
+    document.getElementById('service-required').textContent = service || 'Not specified';
+
+    // Pre-fill form fields
+    const vehicleTypeSelect = document.getElementById('vehicle-type');
+    const servicePerformedSelect = document.getElementById('service-performed');
+    
+    if (vehicleType) {
+        vehicleTypeSelect.value = vehicleType;
+    }
+    
+    if (service) {
+        // Try to match the service with available options
+        const serviceOptions = servicePerformedSelect.querySelectorAll('option');
+        let serviceFound = false;
+        
+        serviceOptions.forEach(option => {
+            if (option.value === service || option.textContent === service) {
+                servicePerformedSelect.value = option.value;
+                serviceFound = true;
+            }
+        });
+        
+        // If no exact match, set to "other"
+        if (!serviceFound && service) {
+            servicePerformedSelect.value = 'other';
+            document.getElementById('other-service-group').classList.remove('hidden');
+            document.getElementById('other-service-details').value = service;
+        }
+    }
+
+
+
+    // --- FIXED VISITING CHARGE PRICING: ₹99 for bike, ₹199 for car (NO platform fee) ---
+    
+    function calculatePrice() {
+        // Get vehicle type from URL parameter
+        const vehicleTypeParam = urlParams.get('vehicleType') || '';
+        
+        // FIXED visiting charge: ₹99 for bike, ₹199 for car (regardless of service selected)
+        const basePrice = vehicleTypeParam.toLowerCase() === 'bike' ? 99 : 199;
+        
+        // No platform fee
+        const totalAmount = basePrice;
+        
+        // Update display
+        document.getElementById('service-price').value = basePrice;
+        document.getElementById('display-service-price').textContent = `₹${basePrice.toFixed(2)}`;
+        document.getElementById('display-total-amount').textContent = `₹${totalAmount.toFixed(2)}`;
+        
+        return { basePrice, platformFee: 0, totalAmount };
+    }
+
+
+
+    // Calculate initial price
+    calculatePrice();
+
+    // --- Logic for "Other" Service Text Field ---
+    servicePerformedSelect.addEventListener('change', (e) => {
+        if (e.target.value === 'other') {
+            document.getElementById('other-service-group').classList.remove('hidden');
+            document.getElementById('other-service-details').required = true;
+        } else {
+            document.getElementById('other-service-group').classList.add('hidden');
+            document.getElementById('other-service-details').required = false;
+        }
+        calculatePrice();
+    });
+
+    // Update price when "other" service details change
+    document.getElementById('other-service-details').addEventListener('input', calculatePrice);
+
+    // --- Payment Form Submission Handler with Database Integration ---
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const pricing = calculatePrice();
+            
+            if (pricing.basePrice === 0) {
+                alert('Please select a valid service to proceed with payment.');
+                return;
+            }
+
+            const formData = {
+                customerName: customerName,
+                customerPhone: customerPhone,
+                vehicleType: vehicleType,  // Get from URL parameter instead of dropdown
+                vehicleBrand: vehicleBrand,
+                vehicleModel: vehicleModel,
+                vehicleNumber: vehicleNumber,
+                vehicleColor: vehicleColor,
+                service: servicePerformedSelect.value === 'other' 
+                    ? document.getElementById('other-service-details').value.trim()
+                    : servicePerformedSelect.value,
+                servicePrice: Number(pricing.basePrice),
+                platformFee: Number(pricing.platformFee),
+                totalAmount: Number(pricing.totalAmount),
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value,
+                originalMessage: message
+            };
+
+            // Show loading state
+            const submitBtn = paymentForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
+
+            try {
+                // Construct backend URL
+                const backendURL = 'https://newonwheels.onrender.com/api/payment';
+                console.log("💳 Sending payment data to:", backendURL);
+
+                // Send payment data to backend
+                const response = await fetch(backendURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                console.log("📡 Payment response status:", response.status);
+                const result = await response.json();
+                console.log("📊 Payment response data:", result);
+
+                if (response.ok && result.ok) {
+                    console.log("✅ Payment saved successfully with ID:", result.id);
+                    
+                    alert(`✅ PAYMENT CONFIRMED!\n\n--- VISITING CHARGE ---\nCustomer: ${formData.customerName}\nPhone: ${formData.customerPhone}\nVehicle: ${formData.vehicleType} - ${vehicleBrand} ${formData.vehicleModel}\nVehicle Number: ${vehicleNumber}\nColor: ${vehicleColor}\nService: ${formData.service}\n\n--- PAYMENT DETAILS ---\nVisiting Charge: ₹${formData.servicePrice.toFixed(2)}\n\nTotal Paid: ₹${formData.totalAmount.toFixed(2)}\nPayment Method: ${formData.paymentMethod.toUpperCase()}\n\n⚠️ NOTE: Additional parts/repair costs will be charged separately after mechanic's inspection.\n\nPayment ID: ${result.id}\n\nThank you for using MechWay!`);
+                    
+                    // Reset form and redirect to home
+                    paymentForm.reset();
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Payment processing failed');
+                }
+            } catch (err) {
+                console.error('❌ Payment error:', err);
+                alert('❌ PAYMENT FAILED!\n\nError: ' + err.message + '\n\nPlease try again or contact support.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>
