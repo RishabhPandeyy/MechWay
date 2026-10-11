@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#d32f2f">
+
+  <link rel="icon" type="image/png" href="/assets/images/mechwaynew.png">
+  <link rel="apple-touch-icon" href="/assets/images/mechwaynew.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- Leaflet CSS removed - map no longer needed -->
+  <!-- Razorpay Checkout -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/pages/payment-with-db.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/customer-theme.css">
+
+  <!-- Search metadata -->
+  <title>Booking Payment | MechWay</title>
+  <meta name="description" content="Complete payment for your MechWay booking.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mechway.in/pages/payment-with-db.html">
+  <meta property="og:site_name" content="MechWay">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Booking Payment | MechWay">
+  <meta property="og:description" content="Complete payment for your MechWay booking.">
+  <meta property="og:url" content="https://www.mechway.in/pages/payment-with-db.html">
+  <meta property="og:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+  <meta property="og:image:alt" content="MechWay vehicle mechanic service">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Booking Payment | MechWay">
+  <meta name="twitter:description" content="Complete payment for your MechWay booking.">
+  <meta name="twitter:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar mw-site-nav">
+  <a href="/index.html" class="navbar-logo mw-nav-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" class="inline-payment-with-db-1"></a>
+  <nav class="nav-links mw-nav-menu">
+
+<a href="/index.html" class="navbar-link">Home</a>
+<a href="/pages/service.html" class="navbar-link">Services</a>
+<a href="/pages/why-us.html" class="navbar-link">Why Us</a>
+<a href="/pages/startrestoration.html" class="navbar-link">Restoration</a>
+<a href="/pages/mech-signup.html" class="navbar-link">Join as Mechanic</a>
+</nav>
+  <button class="hamburger" id="ham-btn"><i class="fas fa-bars"></i></button>
+<a class="customer-booking-button" href="/pages/mechanic.html">Book a Mechanic <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+<button class="mobile-close" id="mob-close"><i class="fas fa-times"></i></button>
+<a href="/index.html" class="navbar-link">Home</a>
+<a href="/pages/service.html" class="navbar-link">Services</a>
+<a href="/pages/why-us.html" class="navbar-link">Why Us</a>
+<a href="/pages/startrestoration.html" class="navbar-link">Restoration</a>
+<a href="/pages/mech-signup.html" class="navbar-link">Join as Mechanic</a>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-wrap">
+  <div class="pay-title-area">
+    <div class="pay-badge"><i class="fas fa-shield-alt"></i> Secure Payment</div>
+    <h1 class="pay-title">Complete Your <em>Payment</em></h1>
+    <p class="pay-sub">Review your booking and choose a payment method below.</p>
+  </div>
+
+  <div class="pay-layout" id="pay-layout">
+
+    <!-- ── MECHANIC DETAILS LOCKED NOTICE (full span) ── -->
+    <div class="card full-span inline-payment-with-db-2" >
+      <div class="card-header">
+        <i class="fas fa-user-tie"></i>
+        <h3>Mechanic Contact Details</h3>
+      </div>
+      <div class="card-body inline-payment-with-db-3" >
+        <div class="inline-payment-with-db-4">
+          <i class="fas fa-lock inline-payment-with-db-5" ></i>
+        </div>
+        <div class="inline-payment-with-db-6">
+          <div class="inline-payment-with-db-7">Unlocks After Payment</div>
+          <div class="inline-payment-with-db-8">Your mechanic's full name, phone number, and contact options will be shown on the <strong class="inline-payment-with-db-9">Booking Confirmed</strong> page immediately after payment is complete.</div>
+        </div>
+      </div>
+    </div>
+
+        <!-- ── CUSTOMER DETAILS ── -->
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-user"></i>
+        <h3>Customer Details</h3>
+      </div>
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Name</span>
+            <span class="info-value" id="disp-name">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Phone</span>
+            <span class="info-value" id="disp-phone">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VEHICLE DETAILS ── -->
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-car"></i>
+        <h3>Vehicle Details</h3>
+      </div>
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Type</span>
+            <span class="info-value" id="disp-vtype">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Brand</span>
+            <span class="info-value" id="disp-brand">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Model</span>
+            <span class="info-value" id="disp-model">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Number</span>
+            <span class="info-value" id="disp-vnumber">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYMENT FORM (full span) ── -->
+    <div class="card full-span">
+      <div class="card-header">
+        <i class="fas fa-credit-card"></i>
+        <h3>Payment Details</h3>
+      </div>
+      <div class="card-body">
+        <form id="payment-form">
+
+          <!-- Vehicle Type (disabled, pre-filled) -->
+          <div class="field-group inline-payment-with-db-10" >
+            <label>Vehicle Type</label>
+            <select id="vehicle-type" name="vehicle-type" disabled>
+              <option value="">Select vehicle type</option>
+              <option value="Car">Car</option>
+              <option value="Bike">Bike</option>
+            </select>
+          </div>
+
+          <!-- Service Performed -->
+          <div class="field-group inline-payment-with-db-11" >
+            <label>Service Performed</label>
+            <select id="service-performed" name="service-performed" disabled>
+              <option value="" disabled>Choose a service…</option>
+              <optgroup label="Car Services">
+                <option value="Full Service (Oil, Filters)">Full Service (Oil, Filters)</option>
+                <option value="Battery Replacement">Battery Replacement</option>
+                <option value="Brake Pad Replacement">Brake Pad Replacement</option>
+                <option value="AC Gas Refill">AC Gas Refill</option>
+                <option value="Tire Puncture Repair">Tire Puncture Repair</option>
+                <option value="Clutch Assembly Replacement">Clutch Assembly Replacement</option>
+                <option value="General Checkup">General Checkup</option>
+                <option value="Battery Issue">Battery Issue</option>
+                <option value="Engine Problem">Engine Problem</option>
+                <option value="Brake Problem">Brake Problem</option>
+                <option value="Lockout Service">Lockout Service</option>
+                <option value="Tire Issue (Flat, Puncture)">Tire Issue (Flat, Puncture)</option>
+              </optgroup>
+              <optgroup label="Bike Services">
+                <option value="General Service (Oil, Wash)">General Service (Oil, Wash)</option>
+                <option value="Chain Cleaning &amp; Lube">Chain Cleaning &amp; Lube</option>
+                <option value="Brake Shoe/Pad Replacement">Brake Shoe/Pad Replacement</option>
+                <option value="Carburetor Cleaning">Carburetor Cleaning</option>
+                <option value="Bike Puncture Repair">Puncture Repair</option>
+                <option value="Clutch Cable Replacement">Clutch Cable Replacement</option>
+              </optgroup>
+              <option value="other">— Other (Specify) —</option>
+            </select>
+          </div>
+
+          <!-- Other service text (hidden by default) -->
+          <div class="field-group hidden inline-payment-with-db-12" id="other-service-group" >
+            <label>Specify Service</label>
+            <input type="text" id="other-service-details" name="other-service-details" placeholder="e.g., Headlight bulb change">
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="inline-payment-with-db-13">
+            <div class="price-rows">
+              <div class="price-row-item">
+                <span>Service Charge</span>
+                <span id="disp-service-price">₹0.00</span>
+              </div>
+              <div class="price-row-item">
+                <span>Platform Fee</span>
+                <span>₹0.00 <span class="inline-payment-with-db-14">(FREE)</span></span>
+              </div>
+            </div>
+            <div class="price-total">
+              <span class="total-label">Total Payable</span>
+              <span class="total-amount" id="disp-total">₹0.00</span>
+            </div>
+          </div>
+          <!-- Hidden price input for form submission -->
+          <input type="hidden" id="service-price" name="service-price" value="0">
+
+          <!-- Payment Method -->
+          <div class="inline-payment-with-db-15">
+            <label class="inline-payment-with-db-16">Payment Method</label>
+          </div>
+          <div class="pay-options">
+            <label class="pay-opt selected" id="razorpay-option">
+              <input type="radio" name="payment-method" value="razorpay" checked>
+              <span class="opt-icon"><i class="fas fa-credit-card"></i></span>
+              <span class="opt-text">
+                <h4>Pay Online</h4>
+                <p>Secure payment via Razorpay (UPI, Cards, Wallets)</p>
+              </span>
+            </label>
+
+          </div>
+
+
+
+          <!-- Razorpay section hidden - opens in popup -->
+          <div class="qr-section hidden inline-payment-with-db-17" id="qr-code-section" >
+          </div>
+
+
+
+          <button type="submit" class="btn-submit-pay" id="submit-pay-btn">
+            <i class="fas fa-shield-alt"></i> Confirm & Complete Payment
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div><!-- /.pay-layout -->
+</div><!-- /.page-wrap -->
+
+<!-- FOOTER -->
+
+<footer class="mw-footer">
+  <div class="mw-footer-container">
+    <div class="mw-footer-grid">
+      <div class="mw-footer-brand">
+        <a href="/index.html" class="mw-footer-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" loading="lazy" decoding="async"></a>
+        <p>Your trusted 24/7 mobile mechanic and auto parts partner in Prayagraj. Genuine products, expert service, zero hassle.</p>
+        <div class="mw-footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/mechway.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="tel:+919794575236" aria-label="Phone"><i class="fas fa-phone"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Quick Links</h5>
+        <a href="/index.html">Home</a>
+        <a href="/pages/about.html">About Us</a>
+        <a href="/pages/service.html">Services</a>
+        <a href="/pages/shop.html">Shop</a>
+        <a href="/pages/mechanic.html">Book a Mechanic</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Categories</h5>
+        <a href="/pages/shop.html">Car Lubricants</a>
+        <a href="/pages/shop.html">Bike Parts</a>
+        <a href="/pages/shop.html">Car Fluids</a>
+        <a href="/pages/shop.html">Emergency Kits</a>
+        <a href="/pages/shop.html">Accessories</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Contact Us</h5>
+        <div class="mw-footer-contact-item"><i class="fas fa-phone"></i><span><a href="tel:+919794575236">+91 97945 75236</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:support@mechway.in">support@mechway.in</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Prayagraj, Uttar Pradesh</span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-clock"></i><span>Available 24/7 for emergency service</span></div>
+      </div>
+    </div>
+    <div class="mw-footer-bottom">
+      <p>&copy; 2026 MechWay. All rights reserved.</p>
+      <div class="mw-footer-badges">
+        <span class="mw-footer-badge">Verified Mechanics</span>
+        <span class="mw-footer-badge">24/7 Service</span>
+        <span class="mw-footer-badge">Genuine Parts</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Leaflet JS removed - map no longer needed -->
+<script src="/assets/js/pages/payment-with-db.js"></script>
+</body>
+</html>

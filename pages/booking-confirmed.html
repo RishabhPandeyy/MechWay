@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#d32f2f">
+
+  <link rel="icon" type="image/png" href="/assets/images/mechwaynew.png">
+  <link rel="apple-touch-icon" href="/assets/images/mechwaynew.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/assets/css/pages/booking-confirmed.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/customer-theme.css">
+
+  <!-- Search metadata -->
+  <title>Booking Confirmation | MechWay</title>
+  <meta name="description" content="View the confirmation and next steps for your MechWay booking.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mechway.in/pages/booking-confirmed.html">
+  <meta property="og:site_name" content="MechWay">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Booking Confirmation | MechWay">
+  <meta property="og:description" content="View the confirmation and next steps for your MechWay booking.">
+  <meta property="og:url" content="https://www.mechway.in/pages/booking-confirmed.html">
+  <meta property="og:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+  <meta property="og:image:alt" content="MechWay vehicle mechanic service">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Booking Confirmation | MechWay">
+  <meta name="twitter:description" content="View the confirmation and next steps for your MechWay booking.">
+  <meta name="twitter:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar mw-site-nav">
+  <a href="/index.html" class="navbar-logo mw-nav-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" class="inline-booking-confirmed-1"></a>
+  <nav class="nav-links mw-nav-menu">
+
+<a href="/index.html" class="navbar-link">Home</a>
+<a href="/pages/service.html" class="navbar-link">Services</a>
+<a href="/pages/why-us.html" class="navbar-link">Why Us</a>
+<a href="/pages/startrestoration.html" class="navbar-link">Restoration</a>
+<a href="/pages/mech-signup.html" class="navbar-link">Join as Mechanic</a>
+</nav>
+  <button class="hamburger" id="ham-btn"><i class="fas fa-bars"></i></button>
+<a class="customer-booking-button" href="/pages/mechanic.html">Book a Mechanic <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+<button class="mobile-close" id="mob-close"><i class="fas fa-times"></i></button>
+<a href="/index.html" class="navbar-link">Home</a>
+<a href="/pages/service.html" class="navbar-link">Services</a>
+<a href="/pages/why-us.html" class="navbar-link">Why Us</a>
+<a href="/pages/startrestoration.html" class="navbar-link">Restoration</a>
+<a href="/pages/mech-signup.html" class="navbar-link">Join as Mechanic</a>
+</div>
+
+<div class="page-wrap">
+  <div class="confirmed-layout">
+
+    <!-- ── SUCCESS HERO ── -->
+    <div class="success-hero">
+      <div class="success-icon-ring">
+        <i class="fas fa-check"></i>
+      </div>
+      <h1>Booking <em>Confirmed!</em></h1>
+      <p>Your payment was successful. Your mechanic's contact details are now available below.</p>
+      <div class="payment-id-chip inline-booking-confirmed-2" id="payment-id-chip" >
+        <i class="fas fa-receipt inline-booking-confirmed-3" ></i>
+        Payment ID: <strong id="chip-payment-id">—</strong>
+      </div>
+    </div>
+
+    <!-- ── MECHANIC DETAILS (REVEALED) ── -->
+    <div class="mechanic-reveal" id="mechanic-section">
+      <div class="mech-reveal-header">
+        <i class="fas fa-hard-hat"></i>
+        <h3>Your Mechanic</h3>
+        <div class="live-badge"><span class="live-dot"></span> On The Way</div>
+      </div>
+      <div class="mech-reveal-body">
+
+        <!-- Identity -->
+        <div class="mech-identity">
+          <div class="mech-avatar-lg"><i class="fas fa-hard-hat"></i></div>
+          <div>
+            <div class="mech-name-big" id="conf-mech-name">—</div>
+            <div class="mech-role">Certified Mobile Mechanic · Prayagraj</div>
+          </div>
+        </div>
+
+        <!-- Phone number (big & clickable) -->
+        <div class="phone-highlight">
+          <div class="phone-label">Mechanic's Phone Number</div>
+          <a href="#" id="conf-mech-phone-link" class="phone-number">—</a>
+        </div>
+
+        <!-- Call + WhatsApp -->
+        <div class="mech-actions">
+          <a href="#" id="btn-call-mech" class="btn-call-green">
+            <i class="fas fa-phone-alt"></i>
+            <span id="btn-call-label">Call Mechanic</span>
+          </a>
+          <a href="#" id="btn-wa-mech" class="btn-wa" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+          </a>
+        </div>
+
+        <!-- Dispatch notice -->
+        <div class="dispatch-notice">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Your mechanic has been dispatched to your location. <strong>Please keep your phone accessible</strong> — they may call to confirm your position.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NO MECHANIC ASSIGNED (support fallback) ── -->
+    <div class="card inline-booking-confirmed-4" id="no-mechanic-section" >
+      <div class="card-header green">
+        <i class="fas fa-headset"></i>
+        <h3>Mechanic Being Assigned</h3>
+      </div>
+      <div class="card-body">
+        <p class="inline-booking-confirmed-5">Our team will assign the nearest available mechanic and call you shortly. For urgent help:</p>
+        <a href="tel:+919794575236" class="btn-call-green inline-booking-confirmed-6" >
+          <i class="fas fa-headset"></i> Call MechWay Support
+        </a>
+      </div>
+    </div>
+
+    <!-- ── BOOKING SUMMARY ── -->
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-clipboard-check"></i>
+        <h3>Booking Summary</h3>
+      </div>
+      <div class="card-body">
+        <div class="info-grid inline-booking-confirmed-7" >
+          <div class="info-item">
+            <span class="info-label">Customer</span>
+            <span class="info-value" id="conf-customer-name">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Phone</span>
+            <span class="info-value" id="conf-customer-phone">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Vehicle</span>
+            <span class="info-value" id="conf-vehicle">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Reg. Number</span>
+            <span class="info-value" id="conf-reg">—</span>
+          </div>
+          <div class="info-item inline-booking-confirmed-8" >
+            <span class="info-label">Service</span>
+            <span class="info-value" id="conf-service">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYMENT SUMMARY ── -->
+    <div class="card green-top">
+      <div class="card-header green">
+        <i class="fas fa-receipt"></i>
+        <h3>Payment Receipt</h3>
+      </div>
+      <div class="card-body">
+        <div class="pay-row">
+          <span>Service Charge</span>
+          <span id="conf-service-price">—</span>
+        </div>
+        <div class="pay-row">
+          <span>Platform Fee</span>
+          <span class="inline-booking-confirmed-9">FREE</span>
+        </div>
+        <div class="pay-row">
+          <span>Payment Method</span>
+          <span id="conf-pay-method">—</span>
+        </div>
+        <div class="pay-total">
+          <span class="pay-total-label">Total Paid</span>
+          <span class="pay-total-amount" id="conf-total">—</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── SERVICE VERIFICATION OTP ── -->
+    <div class="otp-card inline-booking-confirmed-10" id="otp-section" >
+      <div class="otp-header">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Service Verification OTP</h3>
+      </div>
+      <div class="otp-body">
+        <div class="otp-instruction">
+          Once the mechanic finishes the repair, they will ask you for this OTP on their dashboard.
+          <strong>Show this code to your mechanic</strong> so they can verify and close the job.
+          Do <strong>not</strong> share it before the work is fully done.
+        </div>
+        <div class="otp-box">
+          <div class="otp-label">Your Unique OTP</div>
+          <div class="otp-digits" id="otp-display">------</div>
+          <div class="otp-validity"><i class="fas fa-clock"></i> Valid for this booking only</div>
+        </div>
+        <button class="otp-copy-btn" id="otp-copy-btn" onclick="copyOTP()">
+          <i class="fas fa-copy"></i> Copy OTP
+        </button>
+        <div class="otp-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Do not share this OTP before the mechanic has completed your service. This code verifies job completion.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FOOTER ACTIONS ── -->
+    <div class="footer-actions">
+      <a href="/index.html" class="btn-home">
+        <i class="fas fa-home"></i> Back to Home
+      </a>
+      <a href="tel:+919794575236" class="btn-support">
+        <i class="fas fa-headset"></i> Call Support
+      </a>
+    </div>
+
+  </div><!-- /.confirmed-layout -->
+</div><!-- /.page-wrap -->
+
+
+<footer class="mw-footer">
+  <div class="mw-footer-container">
+    <div class="mw-footer-grid">
+      <div class="mw-footer-brand">
+        <a href="/index.html" class="mw-footer-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" loading="lazy" decoding="async"></a>
+        <p>Your trusted 24/7 mobile mechanic and auto parts partner in Prayagraj. Genuine products, expert service, zero hassle.</p>
+        <div class="mw-footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/mechway.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="tel:+919794575236" aria-label="Phone"><i class="fas fa-phone"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Quick Links</h5>
+        <a href="/index.html">Home</a>
+        <a href="/pages/about.html">About Us</a>
+        <a href="/pages/service.html">Services</a>
+        <a href="/pages/shop.html">Shop</a>
+        <a href="/pages/mechanic.html">Book a Mechanic</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Categories</h5>
+        <a href="/pages/shop.html">Car Lubricants</a>
+        <a href="/pages/shop.html">Bike Parts</a>
+        <a href="/pages/shop.html">Car Fluids</a>
+        <a href="/pages/shop.html">Emergency Kits</a>
+        <a href="/pages/shop.html">Accessories</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Contact Us</h5>
+        <div class="mw-footer-contact-item"><i class="fas fa-phone"></i><span><a href="tel:+919794575236">+91 97945 75236</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:support@mechway.in">support@mechway.in</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Prayagraj, Uttar Pradesh</span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-clock"></i><span>Available 24/7 for emergency service</span></div>
+      </div>
+    </div>
+    <div class="mw-footer-bottom">
+      <p>&copy; 2026 MechWay. All rights reserved.</p>
+      <div class="mw-footer-badges">
+        <span class="mw-footer-badge">Verified Mechanics</span>
+        <span class="mw-footer-badge">24/7 Service</span>
+        <span class="mw-footer-badge">Genuine Parts</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/pages/booking-confirmed.js"></script>
+</body>
+</html>

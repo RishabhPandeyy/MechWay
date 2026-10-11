@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /uploads/
+Disallow: /private-uploads/
+
+Sitemap: https://www.mechway.in/sitemap.xml

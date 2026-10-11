@@ -1,0 +1,9 @@
+{
+  "name": "mechway-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend-only static website for MechWay.",
+  "scripts": {
+    "preview": "python3 -m http.server 4173"
+  }
+}

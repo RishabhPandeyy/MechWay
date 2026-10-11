@@ -1,0 +1,7 @@
+# Hostinger does not read the Netlify-style _redirects file.
+# Keep query parameters when older booking/payment links are followed.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(mechanic|payment|booking-confirmed)\.html$ /pages/$1.html [R=302,L]
+RewriteRule ^payment_with_db\.html$ /pages/payment-with-db.html [R=302,L]
+</IfModule>

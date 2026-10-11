@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#d32f2f">
+
+  <link rel="icon" type="image/png" href="/assets/images/mechwaynew.png">
+  <link rel="apple-touch-icon" href="/assets/images/mechwaynew.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/assets/css/pages/mech-dashboard.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+
+  <!-- Search metadata -->
+  <title>Mechanic Dashboard | MechWay</title>
+  <meta name="description" content="Manage assigned jobs, workslips, earnings and payouts in your MechWay mechanic account.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mechway.in/pages/mech-dashboard.html">
+  <meta property="og:site_name" content="MechWay">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Mechanic Dashboard | MechWay">
+  <meta property="og:description" content="Manage assigned jobs, workslips, earnings and payouts in your MechWay mechanic account.">
+  <meta property="og:url" content="https://www.mechway.in/pages/mech-dashboard.html">
+  <meta property="og:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+  <meta property="og:image:alt" content="MechWay vehicle mechanic service">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mechanic Dashboard | MechWay">
+  <meta name="twitter:description" content="Manage assigned jobs, workslips, earnings and payouts in your MechWay mechanic account.">
+  <meta name="twitter:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="hdr mw-site-nav">
+  <a href="/index.html" class="logo mw-nav-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" class="inline-mech-dashboard-1"></a>
+  <div class="hdr-right">
+    <div class="bell-wrap" id="bellWrap" onclick="toggleDrawer()">
+      <i class="fas fa-bell"></i>
+      <div class="badge" id="badge">0</div>
+    </div>
+    <div class="mech-pill"><i class="fas fa-user-cog"></i><span id="hdrName">Loading…</span></div>
+    <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+</header>
+
+<!-- ── NOTIFICATION DRAWER ── -->
+<div class="notif-drawer" id="notifDrawer">
+  <div class="nd-head">
+    <h4><i class="fas fa-bell inline-mech-dashboard-2" ></i> Booking Requests</h4>
+    <button onclick="toggleDrawer()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="drawer-poll" id="drawerPollBar">
+    <div class="poll-dot inline-mech-dashboard-3" ></div>
+    <span id="drawerPollText">Checking every 6s…</span>
+  </div>
+  <div id="notifList">
+    <div class="nd-empty"><i class="fas fa-inbox inline-mech-dashboard-4" ></i>No new booking requests</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<main class="main">
+
+  <!-- Welcome -->
+  <div class="welcome">
+    <h1>Welcome, <span id="wName">Mechanic</span>!</h1>
+    <p>Manage jobs, earnings, and availability from your real-time dashboard</p>
+    <div class="live-pill offline" id="livePill">
+      <div class="live-dot"></div>
+      <span id="liveText">Offline</span>
+    </div>
+    <div class="poll-bar" id="pollBar">
+      <div class="poll-dot"></div>
+      <span id="pollBarText">Listening for bookings…</span>
+    </div>
+  </div>
+
+  <!-- Active job banner -->
+  <div class="active-job" id="activeJobBanner">
+    <div class="aj-icon"><i class="fas fa-tools"></i></div>
+    <div class="inline-mech-dashboard-5">
+      <h4><i class="fas fa-circle inline-mech-dashboard-6" ></i> Active Job In Progress</h4>
+      <div class="aj-row"><strong>Customer:</strong> <span id="ajName">—</span></div>
+      <div class="aj-row"><strong>Service:</strong> <span id="ajService">—</span></div>
+      <div class="aj-row"><strong>Location:</strong> <span id="ajLocation">—</span></div>
+      <div class="inline-mech-dashboard-7">
+        <a class="aj-call" id="ajCall" href="#"><i class="fas fa-phone"></i> Call Customer</a>
+        <button class="aj-complete" onclick="markJobComplete()"><i class="fas fa-check"></i> Mark Complete</button>
+        <button class="aj-complete inline-mech-dashboard-8" onclick="openWorkSlipModal()" ><i class="fas fa-file-lines"></i> Send Work Slip</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat earn"><h4>Total Earnings</h4><div class="val" id="statEarn">₹0</div></div>
+    <div class="stat pend"><h4>Pending Payout</h4><div class="val" id="statPend">₹0</div></div>
+    <div class="stat jobs"><h4>Jobs Done</h4><div class="val" id="statJobs">0</div></div>
+    <div class="stat bal"><h4>Available Balance</h4><div class="val" id="statBal">₹0</div></div>
+  </div>
+
+  <!-- Availability toggle -->
+  <div class="avail-bar">
+    <div>
+      <h3><i class="fas fa-power-off inline-mech-dashboard-9" ></i> Service Status</h3>
+      <p>When ON — you appear in customer nearby-mechanic searches</p>
+    </div>
+    <div class="toggle-wrap">
+      <span class="status-lbl off" id="statusLbl">Unavailable</span>
+      <label class="toggle">
+        <input type="checkbox" id="availToggle" onchange="toggleAvail()">
+        <span class="tslider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Action cards -->
+  <div class="actions">
+    <div class="ac" onclick="openModal('payoutModal')">
+      <i class="fas fa-wallet"></i>
+      <h3>Request Payout</h3>
+      <p>Transfer earnings to UPI or bank</p>
+    </div>
+    <div class="ac" onclick="openModal('profileModal')">
+      <i class="fas fa-user-cog"></i>
+      <h3>Edit Profile</h3>
+      <p>Update details, location, and type</p>
+    </div>
+    <div class="ac" onclick="openModal('bankModal')">
+      <i class="fas fa-university"></i>
+      <h3>Bank / UPI Details</h3>
+      <p>Manage your payout preferences</p>
+    </div>
+    <div class="ac" onclick="openWorkSlipModal()">
+      <i class="fas fa-file-signature"></i>
+      <h3>Send Work Slip</h3>
+      <p>Share completed job details with admin and customer</p>
+    </div>
+  </div>
+
+  <div class="slip-panel">
+    <div class="slip-head">
+      <div>
+        <h3><i class="fas fa-file-lines inline-mech-dashboard-10" ></i> Work Slips</h3>
+        <p>Submitted slips go directly to admin and the customer booking page.</p>
+      </div>
+      <button class="mb inline-mech-dashboard-11"  onclick="openWorkSlipModal()"><i class="fas fa-paper-plane"></i> New Work Slip</button>
+    </div>
+    <div class="slip-list" id="workSlipList">
+      <div class="slip-empty">No work slips submitted yet</div>
+    </div>
+  </div>
+
+  <!-- Payout history -->
+  <div class="hist">
+    <div class="hist-head">
+      <h3><i class="fas fa-history inline-mech-dashboard-12" ></i> Payout History</h3>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+      <tbody id="histBody"><tr><td colspan="4" class="inline-mech-dashboard-13">Loading…</td></tr></tbody>
+    </table>
+  </div>
+
+</main>
+
+<!-- ── PAYOUT MODAL ── -->
+<div class="modal" id="payoutModal">
+  <div class="mc">
+    <div class="mc-head"><h2><i class="fas fa-wallet inline-mech-dashboard-14" ></i>Request Payout</h2><button class="mc-close" onclick="closeModal('payoutModal')">&times;</button></div>
+    <div class="mc-body">
+      <div class="msg" id="payMsg"></div>
+      <div class="fg"><label>Available Balance</label><input class="fi" id="payBal" readonly></div>
+      <div class="fg"><label>Payment Method</label>
+        <select class="fi fsel" id="payMeth">
+          <option value="upi">UPI Transfer</option>
+          <option value="bank_transfer">Bank Transfer</option>
+        </select>
+      </div>
+      <button class="mb" onclick="doPayout()"><i class="fas fa-paper-plane"></i> Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROFILE MODAL ── -->
+<div class="modal" id="profileModal">
+  <div class="mc">
+    <div class="mc-head"><h2><i class="fas fa-user-cog inline-mech-dashboard-15" ></i>Edit Profile</h2><button class="mc-close" onclick="closeModal('profileModal')">&times;</button></div>
+    <div class="mc-body">
+      <div class="msg" id="profMsg"></div>
+      <div class="fg"><label>Full Name</label><input class="fi" id="profName"></div>
+      <div class="fg"><label>Phone</label><input class="fi" id="profPhone" type="tel"></div>
+      <div class="fg"><label>Service Type</label>
+        <select class="fi fsel" id="profType">
+          <option value="car">Car Mechanic</option>
+          <option value="bike">Bike Mechanic</option>
+          <option value="both">Both Car &amp; Bike</option>
+        </select>
+      </div>
+      <div class="fg inline-mech-dashboard-16" >
+        <label>Service Area / Location</label>
+        <input class="fi" id="profLoc" placeholder="Type area name or city" oninput="searchLoc(this.value)">
+        <div class="sugg" id="locSugg"></div>
+        <input type="hidden" id="profLat">
+        <input type="hidden" id="profLng">
+        <small class="inline-mech-dashboard-17">Type and select from suggestions to update your GPS pin</small>
+      </div>
+      <div class="fg"><label>Service Area (Zone)</label><input class="fi" id="profArea"></div>
+      <button class="mb" onclick="doUpdateProfile()"><i class="fas fa-save"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BANK MODAL ── -->
+<div class="modal" id="bankModal">
+  <div class="mc">
+    <div class="mc-head"><h2><i class="fas fa-university inline-mech-dashboard-18" ></i>Bank / UPI Details</h2><button class="mc-close" onclick="closeModal('bankModal')">&times;</button></div>
+    <div class="mc-body">
+      <div class="msg" id="bankMsg"></div>
+      <div class="fg"><label>UPI ID</label><input class="fi" id="bankUpi" placeholder="e.g., 9876543210@upi"></div>
+      <div class="fg"><label>Bank Name</label><input class="fi" id="bankBankName" placeholder="Bank name"></div>
+      <div class="fg"><label>Account Number</label><input class="fi" id="bankAcc" placeholder="Account number"></div>
+      <div class="fg"><label>IFSC Code</label><input class="fi" id="bankIfsc" placeholder="e.g., SBIN0000123" maxlength="11"></div>
+      <button class="mb" onclick="doUpdateBank()"><i class="fas fa-save"></i> Save Bank Details</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── WORK SLIP MODAL ── -->
+<div class="modal" id="workSlipModal">
+  <div class="mc">
+    <div class="mc-head"><h2><i class="fas fa-file-lines inline-mech-dashboard-19" ></i>Submit Work Slip</h2><button class="mc-close" onclick="closeModal('workSlipModal')">&times;</button></div>
+    <div class="mc-body">
+      <div class="msg" id="slipMsg"></div>
+      <div class="fg"><label>Booking</label><input class="fi" id="slipBookingLabel" readonly value="No booking selected yet"></div>
+      <input type="hidden" id="slipBookingId">
+      <div class="fg"><label>Work Summary</label><input class="fi" id="slipSummary" placeholder="e.g., Puncture fixed and brake adjusted"></div>
+      <div class="fg"><label>Work Done</label><textarea class="fi" id="slipWorkDone" rows="4" placeholder="Describe what repair or service you completed"></textarea></div>
+      <div class="fg"><label>Parts Used</label><textarea class="fi" id="slipPartsUsed" rows="3" placeholder="Tube patch, engine oil, cable, fuse, etc."></textarea></div>
+      <div class="fg"><label>Labour Charge</label><input class="fi" id="slipLabourCharge" type="number" min="0" placeholder="0"></div>
+      <div class="fg"><label>Parts Charge</label><input class="fi" id="slipPartsCharge" type="number" min="0" placeholder="0"></div>
+      <div class="fg"><label>Total Charge</label><input class="fi" id="slipTotalCharge" type="number" min="0" placeholder="0" readonly></div>
+      <div class="slip-earnings" aria-live="polite"><span>MechWay share (10%): <strong id="slipCommission">₹0.00</strong></span><span>Estimated mechanic share: <strong id="slipMechanicShare">₹0.00</strong></span></div>
+      <div class="fg"><label>Notes For Admin / Customer</label><textarea class="fi" id="slipNotes" rows="3" placeholder="Any follow-up note or recommendation"></textarea></div>
+      <button class="mb" onclick="submitWorkSlip()"><i class="fas fa-paper-plane"></i> Send Work Slip</button>
+      <a id="slipShareLink" class="slip-share-link" target="_blank" rel="noopener" hidden>Open WhatsApp to send</a>
+      <a id="slipSmsLink" class="slip-share-link" hidden>Open SMS to send</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── OTP MODAL ── -->
+<div class="modal" id="otpModal">
+  <div class="mc">
+    <div class="mc-head"><h2><i class="fas fa-shield-alt inline-mech-dashboard-20" ></i>Verify with OTP</h2><button class="mc-close" onclick="closeModal('otpModal')">&times;</button></div>
+    <div class="mc-body">
+      <div class="inline-mech-dashboard-21">
+        <i class="fas fa-mobile-alt inline-mech-dashboard-22" ></i>
+        <p class="inline-mech-dashboard-23">Ask the customer for the OTP sent to their WhatsApp</p>
+        <p class="inline-mech-dashboard-24">Customer phone: <strong id="otpCustomerPhone">—</strong></p>
+      </div>
+      <div class="msg" id="otpMsg"></div>
+      <div class="fg">
+        <label>Enter 6-Digit OTP</label>
+        <input class="fi inline-mech-dashboard-25" id="otpInput" type="text" placeholder="Enter OTP" maxlength="6" >
+      </div>
+      <button class="mb" id="verifyOtpBtn" onclick="verifyOTP()"><i class="fas fa-check-circle"></i> Verify OTP</button>
+      <button class="mb inline-mech-dashboard-26" id="generateOtpBtn" onclick="generateOTP()" ><i class="fas fa-paper-plane"></i> Send OTP to Customer</button>
+      <div class="inline-mech-dashboard-27">
+        <button onclick="closeModal('otpModal')" class="inline-mech-dashboard-28">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/pages/mech-dashboard.js"></script>
+
+<footer class="mw-footer">
+  <div class="mw-footer-container">
+    <div class="mw-footer-grid">
+      <div class="mw-footer-brand">
+        <a href="/index.html" class="mw-footer-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" loading="lazy" decoding="async"></a>
+        <p>Your trusted 24/7 mobile mechanic and auto parts partner in Prayagraj. Genuine products, expert service, zero hassle.</p>
+        <div class="mw-footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/mechway.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="tel:+919794575236" aria-label="Phone"><i class="fas fa-phone"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Quick Links</h5>
+        <a href="/index.html">Home</a>
+        <a href="/pages/about.html">About Us</a>
+        <a href="/pages/service.html">Services</a>
+        <a href="/pages/shop.html">Shop</a>
+        <a href="/pages/mechanic.html">Book a Mechanic</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Categories</h5>
+        <a href="/pages/shop.html">Car Lubricants</a>
+        <a href="/pages/shop.html">Bike Parts</a>
+        <a href="/pages/shop.html">Car Fluids</a>
+        <a href="/pages/shop.html">Emergency Kits</a>
+        <a href="/pages/shop.html">Accessories</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Contact Us</h5>
+        <div class="mw-footer-contact-item"><i class="fas fa-phone"></i><span><a href="tel:+919794575236">+91 97945 75236</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:support@mechway.in">support@mechway.in</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Prayagraj, Uttar Pradesh</span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-clock"></i><span>Available 24/7 for emergency service</span></div>
+      </div>
+    </div>
+    <div class="mw-footer-bottom">
+      <p>&copy; 2026 MechWay. All rights reserved.</p>
+      <div class="mw-footer-badges">
+        <span class="mw-footer-badge">Verified Mechanics</span>
+        <span class="mw-footer-badge">24/7 Service</span>
+        <span class="mw-footer-badge">Genuine Parts</span>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
