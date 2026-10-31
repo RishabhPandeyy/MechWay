@@ -1,0 +1,147 @@
+/* Shared presentation for customer pages; staff screens keep their own theme. */
+:root {
+  --primary: #d92d20;
+  --primary-color: #d92d20;
+  --orange: #d92d20;
+  --red: #d92d20;
+  --ink: #fff;
+  --ink-2: #fff;
+  --ink-3: #f2f4f7;
+  --snow: #101828;
+  --soft: #475467;
+  --accent: #d92d20;
+  --accent-2: #b42318;
+  --heading: 'Poppins', Arial, sans-serif;
+  --font-heading: 'Poppins', Arial, sans-serif;
+  --body: 'Poppins', Arial, sans-serif;
+  --font-body: 'Poppins', Arial, sans-serif;
+}
+body, input, select, textarea, button { font-family: var(--body); }
+h1, h2, h3, h4 { font-family: var(--heading) !important; font-weight: 700; }
+body { line-height: 1.6; }
+.container, .nav-inner, .navbar-container, .mw-footer .mw-footer-container { max-width: 1180px; }
+.navbar { min-height: 76px; }
+.customer-booking-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 46px; padding: 11px 20px; flex-shrink: 0; border-radius: 8px;
+  background: #d92d20; color: #fff; font-size: 14px; font-weight: 700;
+  text-decoration: none; white-space: nowrap; box-shadow: 0 10px 24px rgba(217,45,32,.22);
+}
+.customer-booking-button:hover { background: #b42318; color: #fff; }
+.navbar:has(> .customer-booking-button), .nav-inner:has(> .customer-booking-button), .navbar-container:has(> .customer-booking-button) { gap: 16px; }
+@media (max-width: 1100px) {
+  body:has(.customer-booking-button) { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+  .navbar .customer-booking-button {
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 900; min-height: 50px; border: 6px solid #fff;
+    box-shadow: 0 4px 24px rgba(16,24,40,.18);
+  }
+  /* A backdrop-filter on the header would trap the fixed mobile button. */
+  .navbar:has(.customer-booking-button) { backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; }
+}
+.nav-logo, .navbar-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo:not(:has(img)) { gap: 0; }
+.navbar .customer-brand-name { font-family: var(--body); font-size: 21px; font-weight: 700; color: #101828; }
+.nav-links a, .navbar-menu a { font-size: 13px; font-weight: 600; text-transform: none; }
+.nav-links a.active, .navbar-menu a.active { color: #d92d20; }
+.nav-cta, .nav-call { background: #d92d20; border-radius: 8px; font-size: 13px; }
+.navbar .hamburger { min-width: 44px; min-height: 44px; border-radius: 8px; }
+.navbar .hamburger:hover { background: #f2f4f7; }
+.page-hero:has(.page-hero-content) {
+  min-height: 360px;
+  padding: 136px 24px 64px;
+  background-position: center;
+  background-image: url('/assets/images/mechanic.jpg');
+}
+.page-hero:has(.page-hero-content) .page-hero-overlay { background: rgba(16, 24, 40, .64) !important; }
+.page-hero-content { width: 100%; max-width: 900px; margin-inline: auto; }
+.page-hero-content h1 { color: #fff; font-size: 40px !important; line-height: 1.2 !important; }
+.page-hero-content p { color: #f2f4f7; font-size: 15px; max-width: 640px; }
+.page-header { padding: 128px 24px 48px; border-bottom: 1px solid #e4e7ec; }
+.page-header p { color: #667085; max-width: 640px; margin: 12px auto 0; }
+.section-label { color: #d92d20; font-size: 12px; font-weight: 600; }
+.section-sub { color: #667085; font-size: 15px; max-width: 680px; }
+.dark-bg .section-sub { margin-left: 0; text-align: left; }
+.dark-bg { background: #f8fafc; }
+.service-grid, .mission-grid, .ops-grid, .why-grid { gap: 24px; margin-top: 32px; }
+.service-card, .mission-card, .ops-card, .why-card {
+  background: #fff; border: 1px solid #e4e7ec; border-radius: 8px;
+  padding: 28px; text-align: left; box-shadow: none;
+}
+.service-card::after, .why-card::before { display: none; }
+.service-card:hover, .mission-card:hover, .ops-card:hover, .why-card:hover {
+  transform: translateY(-3px); border-color: #fda29b; box-shadow: 0 8px 24px rgba(16,24,40,.06);
+}
+.service-card > i, .mission-card > i {
+  display: grid; place-items: center; width: 48px; height: 48px; font-size: 22px;
+  color: #d92d20; background: #fff1f0; border-radius: 8px; margin-bottom: 20px;
+}
+.service-card h3, .mission-card h3, .ops-card h3, .why-card h3 { font-size: 18px !important; margin-bottom: 10px; }
+.service-card p, .mission-card p, .ops-card p, .why-card p { font-size: 14px; color: #667085; }
+.why-icon { border-radius: 8px; }
+.btn-primary, .btn-red, .btn-submit, .btn-proceed, .submit-btn, .cta-button {
+  background: #d92d20; color: #fff; border-radius: 8px; font-size: 14px; font-weight: 600; text-transform: none;
+}
+.btn-primary:hover, .btn-submit:hover, .cta-button:hover { background: #b42318; }
+.cta-section { background: #fff1f0; border-top: 1px solid #fee4e2; padding: 48px 24px; }
+.cta-section .section-title { margin-bottom: 20px; }
+.cta-band { background: #fff1f0; border-radius: 0; }
+.cta-band-bg, .cta-band-overlay { display: none; }
+.cta-band p, .cta-band .cta-meta-item { color: #475467; }
+.hero-line { display: none; }
+.svc-card, .price-card { border-radius: 8px; }
+.story-content { max-width: 800px; }
+.story-content h3 { font-size: 14px !important; margin: 12px 0 24px; }
+.story-content h3 a { color: #d92d20; }
+.story-content p { font-size: 15px; margin-bottom: 16px; }
+.story-points { gap: 16px; }
+.story-point { color: #344054; font-size: 13px; }
+.contact-layout { gap: 64px; align-items: start; }
+.contact-info h3, .contact-form-container h3 { margin-bottom: 28px; }
+.contact-info .info-item { padding: 18px 0; border-bottom: 1px solid #e4e7ec; }
+.contact-info a { color: #344054; overflow-wrap: anywhere; }
+.contact-info .info-item i { color: #d92d20; }
+.contact-form-container label { font-size: 13px; font-weight: 600; color: #344054; }
+.contact-form-container input, .contact-form-container textarea { padding: 12px 14px; margin-top: 8px; }
+.map-container { border-radius: 8px; overflow: hidden; border: 1px solid #e4e7ec; }
+body:has(#product-grid) .page-hero { background: #f8fafc; padding-bottom: 40px; }
+.product-card { border-radius: 8px; box-shadow: none; }
+.product-card .card-img-wrap { background: #f8fafc; }
+.product-card .card-img-wrap img { object-fit: contain; }
+.btn-cart, .btn-checkout { background: #d92d20; color: #fff; }
+.btn-cart:hover, .btn-checkout:hover { background: #b42318; box-shadow: none; }
+.card-wishlist { background: #fff; color: #475467; }
+body:has(#product-grid) .announce, .btn-modal-submit { background: #d92d20; }
+body:has(#product-grid) .announce::before { display: none; }
+body:has(#product-grid) .toast { visibility: hidden; }
+body:has(#product-grid) .toast.show { visibility: visible; }
+footer, .mw-footer {
+  --mw-footer-bg: #101828;
+  --mw-footer-panel: #1d2939;
+  --mw-footer-border: #344054;
+  --mw-footer-text: #98a2b3;
+  --mw-footer-soft: #fff;
+  --mw-footer-accent: #f97066;
+  background: #101828 !important; color: #98a2b3; border-top-color: #344054;
+}
+footer h3, footer h4, footer h5 { color: #fff; }
+footer a, .mw-footer a { color: #98a2b3; }
+footer a:hover, .mw-footer a:hover { color: #fff; }
+.mw-footer .mw-footer-grid { gap: 32px; }
+.mw-footer .mw-footer-col h5 { text-transform: none; font-size: 14px; }
+.mw-footer .mw-footer-col a, .mw-footer .mw-footer-brand p, .mw-footer .mw-footer-contact-item span { font-size: 13px; }
+.mw-footer .mw-footer-logo img { border-radius: 0; }
+.mw-footer-col, .mw-footer-brand, .mw-footer-contact-item { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  .ops-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact-layout { gap: 32px; }
+}
+@media (max-width: 600px) {
+  .page-hero:has(.page-hero-content) { min-height: 320px; padding: 120px 20px 48px; }
+  .page-hero-content { padding: 0; }
+  .page-hero-content h1 { font-size: 30px !important; }
+  .page-hero-content p { font-size: 14px; }
+  .service-grid, .mission-grid, .ops-grid, .why-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .service-card, .mission-card, .ops-card, .why-card { padding: 24px; }
+  .mw-footer .mw-footer-grid { grid-template-columns: minmax(0, 1fr); }
+}

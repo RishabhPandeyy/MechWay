@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <meta name="theme-color" content="#d32f2f">
+
+    <link rel="icon" type="image/png" href="/assets/images/mechwaynew.png">
+    <link rel="apple-touch-icon" href="/assets/images/mechwaynew.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/pages/admin.css">
+
+  <!-- Search metadata -->
+  <title>Admin Panel | MechWay</title>
+  <meta name="description" content="MechWay administration and service management.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mechway.in/server/admin.html">
+  <meta property="og:site_name" content="MechWay">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Admin Panel | MechWay">
+  <meta property="og:description" content="MechWay administration and service management.">
+  <meta property="og:url" content="https://www.mechway.in/server/admin.html">
+  <meta property="og:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+  <meta property="og:image:alt" content="MechWay vehicle mechanic service">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Admin Panel | MechWay">
+  <meta name="twitter:description" content="MechWay administration and service management.">
+  <meta name="twitter:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+</head>
+  <body>
+
+    <!-- Shared Navbar -->
+    <header id="main-navbar"></header>
+
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="admin-login-screen" id="login-screen">
+      <div class="admin-login-card">
+        <span class="admin-logo-crop admin-login-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" /></span>
+        <h1><i class="fas fa-shield-halved"></i> Admin Panel</h1>
+        <p>Enter your admin key to access the dashboard</p>
+        <label class="admin-field-label" for="adminKey">Admin key</label>
+        <input type="password" id="adminKey" placeholder="Enter admin key" autocomplete="off" />
+        <button id="login-btn"><i class="fas fa-right-to-bracket"></i> Access Dashboard</button>
+        <div class="login-error" id="login-error"></div>
+      </div>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="admin-dashboard" id="dashboard">
+
+      <!-- Top Bar -->
+      <div class="admin-top-bar">
+        <h1><span class="admin-logo-crop admin-dashboard-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay"></span><span>Dashboard</span></h1>
+        <div class="meta">
+          <span class="storage-badge" id="storage-badge"><i class="fas fa-database"></i> --</span>
+          <button class="btn-refresh" id="refresh-btn"><i class="fas fa-arrows-rotate"></i> Refresh</button>
+          <button class="btn-logout" id="logout-btn"><i class="fas fa-right-from-bracket"></i> Logout</button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+          <div class="stat-value" id="stat-bookings">--</div>
+          <div class="stat-label">Total Bookings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-indian-rupee-sign"></i></div>
+          <div class="stat-value" id="stat-revenue">--</div>
+          <div class="stat-label" title="Completed payment records, including historical cash-on-service entries; not a settlement report.">Completed Service Value</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fas fa-credit-card"></i></div>
+          <div class="stat-value" id="stat-payments">--</div>
+          <div class="stat-label">Payments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fas fa-envelope"></i></div>
+          <div class="stat-value" id="stat-contacts">--</div>
+          <div class="stat-label">Contacts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal"><i class="fas fa-wrench"></i></div>
+          <div class="stat-value" id="stat-mechanics">--</div>
+          <div class="stat-label">Mechanics</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="fas fa-box-open"></i></div>
+          <div class="stat-value" id="stat-inquiries">--</div>
+          <div class="stat-label">Shop Inquiries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fas fa-motorcycle"></i></div>
+          <div class="stat-value" id="stat-restorations">--</div>
+          <div class="stat-label">Restorations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-hand-holding-dollar"></i></div>
+          <div class="stat-value" id="stat-payouts">--</div>
+          <div class="stat-label">Payout Requests</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs" id="admin-tabs">
+        <button class="admin-tab active" data-tab="bookings"><i class="fas fa-calendar-check"></i> Bookings <span class="badge" id="badge-bookings">0</span></button>
+        <button class="admin-tab" data-tab="payments"><i class="fas fa-credit-card"></i> Payments <span class="badge" id="badge-payments">0</span></button>
+        <button class="admin-tab" data-tab="contacts"><i class="fas fa-envelope"></i> Contacts <span class="badge" id="badge-contacts">0</span></button>
+        <button class="admin-tab" data-tab="inquiries"><i class="fas fa-box-open"></i> Inquiries <span class="badge" id="badge-inquiries">0</span></button>
+        <button class="admin-tab" data-tab="restorations"><i class="fas fa-motorcycle"></i> Restoration <span class="badge" id="badge-restorations">0</span></button>
+        <button class="admin-tab" data-tab="mechanics"><i class="fas fa-wrench"></i> Mechanics <span class="badge" id="badge-mechanics">0</span></button>
+        <button class="admin-tab" data-tab="work-slips"><i class="fas fa-file-lines"></i> Work Slips <span class="badge" id="badge-work-slips">0</span></button>
+        <button class="admin-tab" data-tab="payouts"><i class="fas fa-hand-holding-dollar"></i> Payouts <span class="badge" id="badge-payouts">0</span></button>
+      </div>
+
+      <!-- Tab: Bookings -->
+      <div class="tab-content active" id="tab-bookings">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-calendar-check"></i> Mechanic Bookings</h3>
+            <input type="search" class="table-search" id="search-bookings" placeholder="Search bookings..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Vehicle</th><th>Brand/Model</th><th>Problem</th><th>Price</th><th>OTP</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-bookings"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Payments -->
+      <div class="tab-content" id="tab-payments">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-credit-card"></i> Payment Records</h3>
+            <input type="search" class="table-search" id="search-payments" placeholder="Search payments..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Vehicle</th><th>Service</th><th>Amount</th><th>Method</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-payments"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Contacts -->
+      <div class="tab-content" id="tab-contacts">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-envelope"></i> Contact Messages</h3>
+            <input type="search" class="table-search" id="search-contacts" placeholder="Search contacts..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>Subject</th><th>Message</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-contacts"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Inquiries -->
+      <div class="tab-content" id="tab-inquiries">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-box-open"></i> Shop Inquiries</h3>
+            <input type="search" class="table-search" id="search-inquiries" placeholder="Search inquiries..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Product</th><th>Name</th><th>Phone</th><th>Message</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-inquiries"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Restoration -->
+      <div class="tab-content" id="tab-restorations">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-motorcycle"></i> Restoration Requests</h3>
+            <input type="search" class="table-search" id="search-restorations" placeholder="Search restoration requests..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Brand / Model</th><th>Condition</th><th>Budget</th><th>Images</th><th>Status</th></tr></thead>
+              <tbody id="tbody-restorations"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Mechanics -->
+      <div class="tab-content" id="tab-mechanics">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-wrench"></i> Registered Mechanics</h3>
+            <input type="search" class="table-search" id="search-mechanics" placeholder="Search mechanics..." />
+          </div>
+          <p id="mechanic-action-status" class="mechanic-action-status" role="status" aria-live="polite" hidden></p>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Type</th><th>Aadhar</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-mechanics"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-work-slips">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-file-lines"></i> Mechanic Work Slips</h3>
+            <input type="search" class="table-search" id="search-work-slips" placeholder="Search work slips..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Customer</th><th>Mechanic</th><th>Summary</th><th>Total</th><th>WhatsApp</th><th>Notes</th></tr></thead>
+              <tbody id="tbody-work-slips"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Payouts -->
+      <div class="tab-content" id="tab-payouts">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3><i class="fas fa-hand-holding-dollar"></i> Mechanic Payouts</h3>
+            <input type="search" class="table-search" id="search-payouts" placeholder="Search payouts..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Mechanic</th><th>Amount</th><th>Method</th><th>Bank / UPI</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="tbody-payouts"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <dialog id="mechanic-action-dialog" class="mechanic-action-dialog" aria-labelledby="mechanic-action-title">
+      <form id="mechanic-action-form">
+        <h2 id="mechanic-action-title"></h2>
+        <p id="mechanic-action-description"></p>
+        <div id="mechanic-password-fields" hidden>
+          <label for="mechanic-new-password">New password</label>
+          <input id="mechanic-new-password" type="password" minlength="8" autocomplete="new-password" />
+          <p>At least 8 characters.</p>
+        </div>
+        <p id="mechanic-dialog-error" role="alert" hidden></p>
+        <div class="mechanic-dialog-actions">
+          <button type="button" id="mechanic-action-cancel">Cancel</button>
+          <button type="submit" id="mechanic-action-submit"></button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Shared Footer -->
+    <footer id="main-footer"></footer>
+
+    <!-- Shared Scripts -->
+    <script src="/assets/js/admin/navbar.js"></script>
+    <script src="/assets/js/admin/footer.js"></script>
+    <script src="/assets/js/admin/common.js"></script>
+    <script src="/assets/js/admin/admin.js"></script>
+    <script src="/assets/js/pages/admin.js"></script>
+  </body>
+</html>
