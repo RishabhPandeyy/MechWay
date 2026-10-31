@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" href="/assets/images/mechwaynew.png">
+  <link rel="apple-touch-icon" href="/assets/images/mechwaynew.png">
+
+  <meta name="theme-color" content="#d32f2f">
+
+  <!-- Leaflet CSS -->
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/pages/book.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/customer-theme.css">
+<link rel="stylesheet" href="/assets/css/booking-assistant.css">
+
+  <!-- Search metadata -->
+  <title>Ride Booking | MechWay</title>
+  <meta name="description" content="Enter pickup and destination details in the MechWay ride-booking form.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mechway.in/pages/book.html">
+  <meta property="og:site_name" content="MechWay">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Ride Booking | MechWay">
+  <meta property="og:description" content="Enter pickup and destination details in the MechWay ride-booking form.">
+  <meta property="og:url" content="https://www.mechway.in/pages/book.html">
+  <meta property="og:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+  <meta property="og:image:alt" content="MechWay vehicle mechanic service">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ride Booking | MechWay">
+  <meta name="twitter:description" content="Enter pickup and destination details in the MechWay ride-booking form.">
+  <meta name="twitter:image" content="https://www.mechway.in/assets/images/mechanic.jpg">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="navbar mw-site-nav">
+            <div class="navbar-container mw-nav-inner">
+
+                <a href="/index.html" class="navbar-logo mw-nav-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" class="inline-book-1"></a>
+                <button class="hamburger" id="mobile-menu" type="button" aria-label="Open navigation menu" aria-controls="nav-menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
+                <nav class="navbar-menu mw-nav-menu" id="nav-menu" aria-label="Primary navigation">
+
+<a href="/index.html" class="navbar-link">Home</a>
+<a href="/pages/service.html" class="navbar-link">Services</a>
+<a href="/pages/why-us.html" class="navbar-link">Why Us</a>
+<a href="/pages/startrestoration.html" class="navbar-link">Restoration</a>
+<a href="/pages/mech-signup.html" class="navbar-link">Join as Mechanic</a>
+</nav>
+            <a class="customer-booking-button" href="/pages/mechanic.html">Book a Mechanic <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</div>
+        </header>
+
+        <main class="content-wrap">
+            <div class="container">
+                <div class="booking-form-wrapper">
+                    <h1>Book a Ride</h1>
+                    <p class="form-subtitle">Enter your trip details to see the estimated fare.</p>
+                    <form class="booking-form" id="booking-form">
+                        <div class="form-grid">
+                            <div class="form-group"><label for="name-input">Your Name</label><input id="name-input" type="text" placeholder="e.g., Suresh Kumar" required></div>
+                            <div class="form-group"><label for="phone-input">Your Phone</label><input id="phone-input" type="tel" placeholder="e.g., 9876543210" required></div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="pickup-location-input">Pickup Location <button type="button" id="select-pickup-map-btn" class="map-select-btn"><i class="fas fa-map-marked-alt"></i> Select on Map</button></label>
+                            <textarea id="pickup-location-input" rows="2" placeholder="Start typing or select on map..." required></textarea>
+                            <button type="button" id="getPickupLocationBtn" class="location-btn"><i class="fas fa-crosshairs"></i> Use My Current Geolocation</button>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="dropoff-location-input">Destination <button type="button" id="select-dropoff-map-btn" class="map-select-btn"><i class="fas fa-map-marked-alt"></i> Select on Map</button></label>
+                            <textarea id="dropoff-location-input" rows="2" placeholder="Enter destination or select on map" required></textarea>
+                        </div>
+                        <div id="fare-details">
+                            <ul id="fare-list"></ul>
+                        </div>
+                        <div class="form-actions full-width">
+                            <button type="submit" id="submit-booking-btn" class="btn btn-primary" disabled>Get Ride Estimate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        
+<footer class="mw-footer">
+  <div class="mw-footer-container">
+    <div class="mw-footer-grid">
+      <div class="mw-footer-brand">
+        <a href="/index.html" class="mw-footer-logo"><img src="/assets/images/mechwaynew.png" alt="MechWay" loading="lazy" decoding="async"></a>
+        <p>Your trusted 24/7 mobile mechanic and auto parts partner in Prayagraj. Genuine products, expert service, zero hassle.</p>
+        <div class="mw-footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/mechway.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="tel:+919794575236" aria-label="Phone"><i class="fas fa-phone"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Quick Links</h5>
+        <a href="/index.html">Home</a>
+        <a href="/pages/about.html">About Us</a>
+        <a href="/pages/service.html">Services</a>
+        <a href="/pages/shop.html">Shop</a>
+        <a href="/pages/mechanic.html">Book a Mechanic</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Categories</h5>
+        <a href="/pages/shop.html">Car Lubricants</a>
+        <a href="/pages/shop.html">Bike Parts</a>
+        <a href="/pages/shop.html">Car Fluids</a>
+        <a href="/pages/shop.html">Emergency Kits</a>
+        <a href="/pages/shop.html">Accessories</a>
+      </div>
+      <div class="mw-footer-col">
+        <h5>Contact Us</h5>
+        <div class="mw-footer-contact-item"><i class="fas fa-phone"></i><span><a href="tel:+919794575236">+91 97945 75236</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-envelope"></i><span><a href="mailto:support@mechway.in">support@mechway.in</a></span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Prayagraj, Uttar Pradesh</span></div>
+        <div class="mw-footer-contact-item"><i class="fas fa-clock"></i><span>Available 24/7 for emergency service</span></div>
+      </div>
+    </div>
+    <div class="mw-footer-bottom">
+      <p>&copy; 2026 MechWay. All rights reserved.</p>
+      <div class="mw-footer-badges">
+        <span class="mw-footer-badge">Verified Mechanics</span>
+        <span class="mw-footer-badge">24/7 Service</span>
+        <span class="mw-footer-badge">Genuine Parts</span>
+      </div>
+    </div>
+  </div>
+</footer>
+    </div>
+
+    <!-- Map Modal -->
+    <div class="map-modal" id="map-modal">
+        <div class="map-container">
+            <button class="close-map-btn" id="close-map-btn">&times;</button>
+            <div class="map-header">
+                <div class="map-search-container">
+                    <input type="search" id="map-search-input" class="map-search-input" placeholder="Search for a location...">
+                    <button id="map-search-btn" class="map-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <span id="map-address-preview">Drag the pin or search to set a location.</span>
+            </div>
+            <div id="map"></div>
+            <div class="map-footer">
+                <button id="confirm-location-btn" class="btn btn-primary">Confirm Location</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="/assets/js/pages/book.js"></script>
+<script src="/assets/js/booking-assistant.js"></script>
+</body>
+</html>
