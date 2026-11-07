@@ -1,5 +1,3 @@
-const bookingSubmission = createSubmissionRequest('booking');
-let bookingSaveInFlight = null;
 
   var leafletMap, userLat = '', userLng = '', selectedLocationText = '', bookingData = {}, selectedMech = null;
   const PRAYAGRAJ = { lat: 25.4358, lng: 81.8463 };
@@ -241,14 +239,7 @@ let bookingSaveInFlight = null;
   }
 
   // ── SAVE BOOKING TO BACKEND ─────────────────────────────────────────────
-  function saveBookingToBackend(selectedMechanic = null) {
-    if (bookingData.bookingId) return Promise.resolve(bookingData.bookingId);
-    if (bookingSaveInFlight) return bookingSaveInFlight;
-    bookingSaveInFlight = createBookingOnBackend(selectedMechanic).finally(() => { bookingSaveInFlight = null; });
-    return bookingSaveInFlight;
-  }
-
-  async function createBookingOnBackend(selectedMechanic = null) {
+  async function saveBookingToBackend(selectedMechanic = null) {
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const vt = document.getElementById('vehicle-type').value;
@@ -281,7 +272,6 @@ let bookingSaveInFlight = null;
       mechanicPhone: selectedMechanic?.phone || ''
     };
 
-    bookingPayload.requestId = bookingSubmission.id(bookingPayload);
     try {
       const response = await fetch(getBackendURL() + '/api/book', {
         method: 'POST',
@@ -291,8 +281,6 @@ let bookingSaveInFlight = null;
       const result = await response.json();
       
       if (result.ok) {
-        bookingData.bookingId = result.id;
-        bookingSubmission.complete();
         console.log('✅ Booking saved to backend:', result.id);
         return result.id; // Return booking ID
       } else {

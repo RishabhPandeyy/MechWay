@@ -84,9 +84,6 @@
     ══════════════════════════════════ */
     .brands-bar{padding:2rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;position:relative;z-index:1}
     .brands-bar-label{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:0;text-transform:uppercase;color:var(--text);margin-bottom:1.5rem}
-    .brands-marquee-row{display:flex;align-items:center;gap:1rem;padding-right:clamp(1rem,5vw,4rem)}
-    .brands-marquee-row .marquee-wrap{flex:1;min-width:0}
-    .brands-more{flex-shrink:0;color:var(--text);font-family:var(--heading);font-size:clamp(.85rem,2vw,1.1rem);font-weight:700;white-space:nowrap}
     .marquee-wrap{overflow:hidden;position:relative}
     .marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;width:8rem;height:100%;z-index:2;pointer-events:none}
     .marquee-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
@@ -238,8 +235,6 @@
     .footer-inner{max-width:1100px;margin:0 auto}
     .footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
     .footer-brand p{font-size:.88rem;line-height:1.7;margin-top:.8rem}
-    .restore-footer-logo{display:inline-block;max-width:100%}
-    .restore-footer-logo img{display:block;width:153px;height:auto;max-width:100%;object-fit:contain}
     .footer-col h4{font-family:var(--heading);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:1rem}
     .footer-col a{display:block;color:var(--text);text-decoration:none;font-size:.88rem;margin-bottom:.5rem;transition:color .2s}
     .footer-col a:hover{color:var(--red)}
@@ -252,7 +247,6 @@
     .hero.restore-hero{display:block;padding:128px 5% 48px}
     .restore-hero-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:3rem;max-width:1100px;margin:0 auto}
     .restore-hero .hero-content{padding:0;text-align:left;max-width:none}
-    .restore-hero h1{font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.12;overflow-wrap:break-word}
     .restore-hero .hero-sub{margin:0 0 1.5rem}
     .restore-hero .hero-actions{justify-content:flex-start}
     .restore-enquiry-side{position:relative;min-width:0;min-height:680px;padding:210px 22px 22px;display:flex;align-items:flex-end}

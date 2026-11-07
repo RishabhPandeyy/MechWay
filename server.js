@@ -20,7 +20,6 @@ const { formatRestorationTelegram } = require('./server/restoration-telegram');
 const { createRestorationFiles } = require('./server/restoration-files');
 const { createTelegramNotifier, formatSubmission } = require('./server/telegram-notifications');
 const { createRestorationEnquiryHandler } = require('./server/restoration-enquiry');
-const { saveSubmission } = require('./server/submission-request');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-jwt-secret';
@@ -62,23 +61,23 @@ const restorationUploadDir = path.join(__dirname, 'uploads', 'restoration');
 const restorationRcDir = path.join(__dirname, 'private-uploads', 'restoration-rc');
 fs.mkdirSync(restorationUploadDir, { recursive: true });
 fs.mkdirSync(restorationRcDir, { recursive: true });
-const restorationPhotoFields = ['rcImage', 'govtIdImage', 'frontImage', 'rearImage', 'leftImage', 'rightImage'];
+const restorationPhotoFields = ['rcImage', 'frontImage', 'rearImage', 'leftImage', 'rightImage'];
 const restorationImageExtensions = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
 
 const restorationUpload = multer({
     storage: multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, ['rcImage', 'govtIdImage'].includes(file.fieldname) ? restorationRcDir : restorationUploadDir);
+            cb(null, file.fieldname === 'rcImage' ? restorationRcDir : restorationUploadDir);
         },
         filename: function (req, file, cb) {
             const ext = restorationImageExtensions[file.mimetype];
             cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`);
         }
     }),
-    limits: { fileSize: 10 * 1024 * 1024, files: restorationPhotoFields.length },
+    limits: { fileSize: 10 * 1024 * 1024, files: 5 },
     fileFilter: function (req, file, cb) {
         if (!restorationPhotoFields.includes(file.fieldname) || !restorationImageExtensions[file.mimetype]) {
-            cb(new Error('Upload JPG, PNG or WebP images in the six required slots.'));
+            cb(new Error('Upload JPG, PNG or WebP images in the five required slots.'));
             return;
         }
         cb(null, true);
@@ -212,7 +211,6 @@ const restorationRequestSchema = new mongoose.Schema({
         right: { type: String, default: '' }
     },
     rcDocument: { type: String, default: '' },
-    govtIdDocument: { type: String, default: '' },
     rcPrivate: { type: Boolean, default: false },
     restorationType: { type: String, default: '' },
     budgetRange: { type: String, default: '' },
@@ -226,20 +224,6 @@ const restorationRequestSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 }, { strict: false });
 const RestorationRequest = mongoose.models.RestorationRequest || mongoose.model('RestorationRequest', restorationRequestSchema, 'restoration_requests');
-const restorationQuoteSchema = new mongoose.Schema({
-    fullName: { type: String, required: true },
-    whatsappNumber: { type: String, required: true },
-    city: { type: String, required: true },
-    vehicleType: { type: String, enum: ['Bike', 'Car'], required: true },
-    budgetOption: { type: String, required: true },
-    budgetRange: { type: String, required: true },
-    customBudget: Number,
-    enquirySource: { type: String, default: 'restore-quick-form' },
-    status: { type: String, default: 'pending' },
-    createdAt: { type: Date, default: Date.now }
-}, { versionKey: false });
-const RestorationQuote = mongoose.models.RestorationQuote || mongoose.model('RestorationQuote', restorationQuoteSchema, 'restoration_quotes');
-const { loadRestorationQuotes, detailedRestorationFilter } = require('./server/restoration-quotes');
 
 const payoutRequestSchema = new mongoose.Schema({
     mechanicId: { type: String, required: true },
@@ -492,7 +476,7 @@ const notifySubmission = async (event, record) => {
     }
 };
 app.get('/api/admin/telegram-status', adminAuth, (req, res) => res.json({ ok: true, ...telegram.getStatus() }));
-app.post('/api/restoration-enquiry', createRestorationEnquiryHandler({ RestorationQuote, notify: notifySubmission }));
+app.post('/api/restoration-enquiry', createRestorationEnquiryHandler({ RestorationRequest, notify: notifySubmission }));
 
 // --- API Routes (Mocking backend logic for local testing) ---
 
@@ -511,7 +495,7 @@ app.post('/api/book', async (req, res) => {
     }
 
     try {
-        const { record: booking, created } = await saveSubmission(Booking, 'booking', req.body.requestId, {
+        const booking = await Booking.create({
             name: String(name || '').trim(),
             phone: String(phone).replace(/\D/g, ''),
             vehicleType,
@@ -534,7 +518,7 @@ app.post('/api/book', async (req, res) => {
             mechanicPhone: mechanicPhone || ''
         });
 
-        const telegramNotification = created ? await notifySubmission('booking', booking) : { status: 'already_saved' };
+        const telegramNotification = await notifySubmission('booking', booking);
 
         res.json({
             ok: true,
@@ -545,7 +529,7 @@ app.post('/api/book', async (req, res) => {
         });
     } catch (err) {
         console.error('❌ Booking save error:', err);
-        res.status(err.status || 500).json({ error: err.status ? err.message : 'Could not save booking' });
+        res.status(500).json({ error: 'Could not save booking' });
     }
 });
 
@@ -556,7 +540,7 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
     const requiredPhotosPresent = restorationPhotoFields.every(name => req.files?.[name]?.length === 1);
     if (!requiredPhotosPresent) {
         await cleanupUploads();
-        return res.status(400).json({ error: 'Upload all six images: government ID, RC, front, back, left side and right side.' });
+        return res.status(400).json({ error: 'Upload all five images: RC, front, back, left side and right side.' });
     }
     const vehiclePhotos = {
         front: `/uploads/restoration/${req.files.frontImage[0].filename}`,
@@ -566,7 +550,6 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
     };
     const publicPhotos = Object.values(vehiclePhotos);
 
-    const registrationNumber = String(body.registrationNumber || '').trim().toUpperCase();
     const fullName = String(body.fullName || '').trim();
     const mobileNumber = String(body.mobileNumber || '').trim();
     const email = String(body.email || '').trim();
@@ -580,7 +563,7 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
     const condition = String(body.condition || '').trim();
     const restorationType = String(body.restorationType || '').trim();
 
-    if (!/[A-Z0-9]/.test(registrationNumber) || registrationNumber.length > 20 || !fullName || !mobileNumber || !email || !city || !pickupAddress || !brand || !modelName || !condition || !['Bike', 'Car'].includes(vehicleType)) {
+    if (!fullName || !mobileNumber || !email || !city || !pickupAddress || !brand || !modelName || !condition || !['Bike', 'Car'].includes(vehicleType)) {
         await cleanupUploads();
         return res.status(400).json({ error: 'Please fill all required restoration fields.' });
     }
@@ -597,7 +580,7 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
             await restorationFiles.save(file);
             persistedFiles.push(file);
         }
-        const { record: restorationRequest, created } = await saveSubmission(RestorationRequest, 'restoration', body.requestId, {
+        const restorationRequest = await RestorationRequest.create({
             fullName,
             vehicleType,
             mobileNumber: mobileNumber.replace(/\D/g, ''),
@@ -614,22 +597,14 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
             restorationImages: publicPhotos,
             vehiclePhotos,
             rcDocument: req.files.rcImage[0].filename,
-            govtIdDocument: req.files.govtIdImage[0].filename,
             rcPrivate: true,
             restorationType: restorationType || body.restorationType || '',
             budgetRange: body.budgetRange || '',
             specialNotes: body.specialNotes || '',
             vehicleColor: body.vehicleColor || '',
-            registrationNumber,
+            registrationNumber: String(body.registrationNumber || '').trim().toUpperCase().slice(0, 20),
             status: 'pending'
         });
-        if (!created) {
-            await cleanupUploads();
-            await Promise.all(persistedFiles.map(file => restorationFiles.remove(file).catch(() => {})));
-            return res.json({ ok: true, id: restorationRequest._id, bookingId: restorationRequest._id,
-                images: restorationRequest.restorationImages, collection: 'restoration_requests',
-                telegramNotification: { status: 'already_saved' } });
-        }
         requestSaved = true;
 
         let telegramNotification;
@@ -657,24 +632,22 @@ app.post('/api/restoration', restorationUpload.fields(restorationPhotoFields.map
             await Promise.all(persistedFiles.map(file => restorationFiles.remove(file).catch(() => {})));
         }
         console.error('❌ Restoration save error:', err);
-        res.status(err.status || 500).json({ error: err.status ? err.message : 'Could not save restoration request.' });
+        res.status(500).json({ error: 'Could not save restoration request.' });
     }
 });
 
-app.get('/api/admin/restorations/:id/:document(rc|govt-id)', async (req, res) => {
+app.get('/api/admin/restorations/:id/rc', async (req, res) => {
     const adminKey = process.env.ADMIN_KEY || '';
     if (!adminKey || req.headers['x-admin-key'] !== adminKey) {
         return res.status(401).json({ ok: false, error: 'Unauthorized' });
     }
     try {
         const restoration = await RestorationRequest.findById(req.params.id).lean();
-        const isGovtId = req.params.document === 'govt-id';
-        const documentName = isGovtId ? restoration?.govtIdDocument : restoration?.rcDocument;
-        if (!restoration?.rcPrivate || !documentName) {
+        if (!restoration?.rcPrivate || !restoration.rcDocument) {
             return res.status(404).json({ ok: false, error: 'RC image not found' });
         }
-        const rcPath = path.join(restorationRcDir, path.basename(documentName));
-        const downloadName = `${isGovtId ? 'Govt-ID' : 'RC'}-${req.params.id}${path.extname(rcPath)}`;
+        const rcPath = path.join(restorationRcDir, path.basename(restoration.rcDocument));
+        const downloadName = `RC-${req.params.id}${path.extname(rcPath)}`;
         res.set('Cache-Control', 'private, no-store');
         try {
             await fs.promises.access(rcPath, fs.constants.R_OK);
@@ -698,7 +671,7 @@ app.get('/api/admin/restorations', async (req, res) => {
     }
 
     try {
-        const items = await RestorationRequest.find(detailedRestorationFilter).sort({ createdAt: -1 }).limit(500).lean();
+        const items = await RestorationRequest.find({}).sort({ createdAt: -1 }).limit(500).lean();
         return res.json({ ok: true, count: items.length, restorations: items });
     } catch (err) {
         console.error('❌ Could not fetch restorations:', err);
@@ -1064,14 +1037,13 @@ app.post(['/api/contact', '/api/inquiry'], async (req, res) => {
 
 app.get('/api/admin/submissions', adminAuth, async (req, res) => {
     try {
-        const [bookings, payouts, users, restorationRequests, storedPayments, storedContacts, restorationQuotes] = await Promise.all([
+        const [bookings, payouts, users, restorationRequests, storedPayments, storedContacts] = await Promise.all([
             Booking.find({}).sort({ createdAt: -1 }).limit(500).lean(),
             PayoutRequest.find({}).sort({ createdAt: -1 }).limit(200).lean(),
             User.find({}).sort({ createdAt: -1 }).limit(500).lean(),
-            RestorationRequest.find(detailedRestorationFilter).sort({ createdAt: -1 }).limit(500).lean(),
+            RestorationRequest.find({}).sort({ createdAt: -1 }).limit(500).lean(),
             Payment.find({}).sort({ createdAt: -1 }).limit(500).lean(),
-            Contact.find({}).sort({ createdAt: -1 }).limit(500).lean(),
-            loadRestorationQuotes(RestorationQuote, RestorationRequest)
+            Contact.find({}).sort({ createdAt: -1 }).limit(500).lean()
         ]);
 
         let legacy = {};
@@ -1095,7 +1067,6 @@ app.get('/api/admin/submissions', adminAuth, async (req, res) => {
             mechanics: users,
             workSlips,
             payouts,
-            restorationQuotes,
             restorations: restorationRequests,
             restorationRequests
         });
@@ -1105,22 +1076,13 @@ app.get('/api/admin/submissions', adminAuth, async (req, res) => {
     }
 });
 
-app.get('/api/admin/restoration-quotes', adminAuth, async (req, res) => {
-    try {
-        const quotes = await loadRestorationQuotes(RestorationQuote, RestorationRequest);
-        res.json({ ok: true, count: quotes.length, quotes });
-    } catch {
-        res.status(500).json({ error: 'Could not load restoration quotes' });
-    }
-});
-
 const adminMechanics = createAdminMechanicHandlers(User);
 app.post('/api/admin/mechanics/:id/approve', adminAuth, adminMechanics.approve);
 app.post('/api/admin/mechanics/:id/set-password', adminAuth, adminMechanics.setPassword);
 
 app.get('/api/admin/restoration-requests', adminAuth, async (req, res) => {
     try {
-        const requests = await RestorationRequest.find(detailedRestorationFilter).sort({ createdAt: -1 }).lean();
+        const requests = await RestorationRequest.find({}).sort({ createdAt: -1 }).lean();
         res.json({ ok: true, restorationRequests: requests, count: requests.length });
     } catch (err) {
         console.error('❌ Restoration requests fetch error:', err);

@@ -7,7 +7,6 @@
           contacts: [],
           inquiries: [],
           restorations: [],
-          restorationQuotes: [],
           mechanics: [],
           workSlips: [],
           payouts: []
@@ -59,8 +58,6 @@
           el('badge-payments').textContent = state.payments.length;
           el('badge-contacts').textContent = state.contacts.length;
           el('badge-inquiries').textContent = state.inquiries.length;
-          el('badge-restoration-quotes').textContent = state.restorationQuotes.length;
-          el('stat-restoration-quotes').textContent = state.restorationQuotes.length;
           el('badge-restorations').textContent = state.restorations.length;
           el('badge-mechanics').textContent = state.mechanics.length;
           el('badge-work-slips').textContent = state.workSlips.length;
@@ -172,26 +169,6 @@
           fillTable('tbody-inquiries', rows, 6);
         }
 
-        function renderRestorationQuotes(filter = '') {
-          const q = filter.toLowerCase();
-          const rows = state.restorationQuotes
-            .filter(row => JSON.stringify(row).toLowerCase().includes(q))
-            .map(row => {
-              const raw = String(row.whatsappNumber || row.mobileNumber || '').replace(/\D/g, '');
-              const phone = raw.length === 10 ? '91' + raw : raw;
-              const contact = /^(?:91)?[6-9]\d{9}$/.test(phone)
-                ? `<a class="action-btn" href="https://wa.me/${phone}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : '—';
-              return `<tr>
-                <td>${esc(fmtDate(row.createdAt || row.created_at))}</td>
-                <td>${esc(row.fullName || row.name)}</td>
-                <td>${esc(row.whatsappNumber || row.mobileNumber || '—')}</td>
-                <td>${esc(row.vehicleType)}</td><td>${esc(row.city)}</td>
-                <td>${esc(row.budgetRange)}</td><td>${esc(row.status || 'pending')}</td>
-                <td>${contact}</td></tr>`;
-            }).join('');
-          fillTable('tbody-restoration-quotes', rows, 8);
-        }
-
         function normalizeImageUrl(path) {
           if (typeof path !== 'string' || !path.trim()) return '';
           try {
@@ -224,18 +201,17 @@
                     `;
                   }).join('') + (images.length > maxThumbs ? `<span>+${images.length - maxThumbs} more</span>` : ''))
                 : '<span>—</span>';
-              const govtIdButton = row.govtIdDocument ? `<button type="button" class="action-btn" data-action="download-govt-id" data-id="${esc(row._id)}">Download Govt ID</button>` : '';
               const rcButton = row.rcPrivate ? `<button type="button" class="action-btn" data-action="download-rc" data-id="${esc(row._id)}">Download RC</button>` : '';
 
               return `
                 <tr>
                   <td>${esc(fmtDate(row.createdAt || row.created_at))}</td>
                   <td>${esc(row.fullName || row.name || '—')}</td>
-                  <td>${esc(row.whatsappNumber || row.mobileNumber || row.phone || '—')}</td>
+                  <td>${esc(row.mobileNumber || row.phone || '—')}</td>
                   <td>${esc([row.brand, row.modelName].filter(Boolean).join(' / '))}${row.registrationNumber ? `<br><small>${esc(row.registrationNumber)}</small>` : ''}</td>
                   <td>${esc(row.condition || '—')}</td>
                   <td>${esc(row.budgetRange || '—')}</td>
-                  <td>${imgHtml}${rcButton}${govtIdButton}</td>
+                  <td>${imgHtml}${rcButton}</td>
                   <td><span class="pill ${row.status === 'pending' ? 'off' : 'ok'}">${esc(row.status || 'pending')}</span></td>
                 </tr>
               `;
@@ -348,7 +324,6 @@
           renderPayments(el('search-payments').value);
           renderContacts(el('search-contacts').value);
           renderInquiries(el('search-inquiries').value);
-          renderRestorationQuotes(el('search-restoration-quotes').value);
           renderRestorations(el('search-restorations').value);
           renderMechanics(el('search-mechanics').value);
           renderWorkSlips(el('search-work-slips').value);
@@ -361,7 +336,6 @@
           state.payments = submissions.payments || [];
           state.contacts = submissions.contacts || [];
           state.inquiries = submissions.inquiries || [];
-          state.restorationQuotes = submissions.restorationQuotes || [];
           state.restorations = submissions.restorations || submissions.restorationRequests || [];
           state.mechanics = submissions.mechanics || [];
           state.workSlips = submissions.workSlips || [];
@@ -485,7 +459,7 @@
           btn.addEventListener('click', () => activateTab(btn.dataset.tab));
         });
 
-        [['search-restoration-quotes', renderRestorationQuotes], ['search-bookings', renderBookings], ['search-payments', renderPayments], ['search-contacts', renderContacts], ['search-inquiries', renderInquiries], ['search-restorations', renderRestorations], ['search-mechanics', renderMechanics], ['search-work-slips', renderWorkSlips], ['search-payouts', renderPayouts]]
+        [['search-bookings', renderBookings], ['search-payments', renderPayments], ['search-contacts', renderContacts], ['search-inquiries', renderInquiries], ['search-restorations', renderRestorations], ['search-mechanics', renderMechanics], ['search-work-slips', renderWorkSlips], ['search-payouts', renderPayouts]]
           .forEach(([id, render]) => el(id).addEventListener('input', e => render(e.target.value)));
 
         el('login-btn').addEventListener('click', handleAdminLogin);
@@ -522,19 +496,18 @@
         });
 
         el('tbody-restorations').addEventListener('click', async e => {
-          const button = e.target.closest('[data-action="download-rc"], [data-action="download-govt-id"]');
+          const button = e.target.closest('[data-action="download-rc"]');
           if (!button) return;
           button.disabled = true;
-          const documentType = button.dataset.action === 'download-govt-id' ? 'govt-id' : 'rc';
           try {
-            const response = await fetch(`${getBackendURL()}/api/admin/restorations/${encodeURIComponent(button.dataset.id)}/${documentType}`, {
+            const response = await fetch(`${getBackendURL()}/api/admin/restorations/${encodeURIComponent(button.dataset.id)}/rc`, {
               headers: { 'x-admin-key': state.adminKey }
             });
-            if (!response.ok) throw new Error('Could not download document image');
+            if (!response.ok) throw new Error('Could not download RC image');
             const url = URL.createObjectURL(await response.blob());
             const link = document.createElement('a');
             link.href = url;
-            link.download = `${documentType}-${button.dataset.id}`;
+            link.download = `RC-${button.dataset.id}`;
             link.click();
             setTimeout(() => URL.revokeObjectURL(url), 60000);
           } catch (error) {

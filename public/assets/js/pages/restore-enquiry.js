@@ -6,10 +6,7 @@
   const custom = form.elements.customBudget;
   const customField = document.getElementById('quick-custom-field');
   const status = document.getElementById('quick-restoration-status');
-  const whatsapp = form.elements.whatsappNumber;
-  whatsapp.addEventListener('input', () => whatsapp.setCustomValidity(''));
   const button = form.querySelector('button[type="submit"]');
-  const submissionRequest = createSubmissionRequest('restore-enquiry');
   const choices = {
     Bike: [['15000', '₹15,000'], ['45000', '₹45,000'], ['80000', '₹80,000+']],
     Car: [['under-150000', 'Below ₹1.5 lakh'], ['150000-300000', '₹1.5–₹3 lakh'], ['300000-plus', '₹3 lakh+']]
@@ -33,12 +30,7 @@
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (button.disabled || !form.reportValidity()) return;
-    const digits = whatsapp.value.replace(/\D/g, '');
-    const whatsappNumber = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : digits;
-    whatsapp.setCustomValidity(/^[6-9]\d{9}$/.test(whatsappNumber) ? '' : 'Enter a valid 10-digit Indian WhatsApp number.');
-    if (!form.reportValidity()) return;
     const data = {
-      whatsappNumber,
       name: form.elements.name.value.trim(),
       location: form.elements.location.value.trim(),
       vehicleType: vehicle.value,
@@ -49,7 +41,6 @@
       status.textContent = 'Please enter your name and location.';
       return;
     }
-    data.requestId = submissionRequest.id(data);
     button.disabled = true;
     button.textContent = 'Sending…';
     status.textContent = '';
@@ -69,7 +60,6 @@
       }
       const result = await response.json();
       if (!response.ok || !result.ok || !result.id) throw new Error(result.error || 'Could not save your enquiry.');
-      submissionRequest.complete();
       form.reset();
       updateBudgets();
       status.textContent = `Your enquiry has been saved. Reference: MW-REST-${String(result.id).slice(-6).toUpperCase()}.`;

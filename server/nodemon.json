@@ -1,6 +1,0 @@
-{
-  "watch": ["*.js"],
-  "ext": "js,json,mjs",
-  "ignore": ["mechway.json", "server.log", "server.pid", "*.bak", "node_modules/**"],
-  "delay": "1000"
-}

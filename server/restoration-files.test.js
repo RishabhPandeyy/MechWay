@@ -28,7 +28,6 @@ test('photos survive loss of disk files; RC bytes stay in a separate namespace',
         const storage = createRestorationFiles(getDb);
         await storage.save(file);
         await storage.save({ ...file, filename: 'private.jpg', fieldname: 'rcImage' });
-        await storage.save({ ...file, filename: 'govt.jpg', fieldname: 'govtIdImage' });
         await fs.unlink(file.path);
         const restartedStorage = createRestorationFiles(getDb);
         const photo = response();
@@ -36,13 +35,6 @@ test('photos survive loss of disk files; RC bytes stay in a separate namespace',
         assert.deepEqual(photo.body, bytes);
         assert.equal(photo.headers['Content-Type'], 'image/jpeg');
         assert.equal(await restartedStorage.send(response(), 'private.jpg'), false);
-        assert.equal(await restartedStorage.send(response(), 'govt.jpg'), false);
-        const govt = response();
-        assert.equal(await restartedStorage.send(govt, 'govt.jpg', { privateFile: true, downloadName: 'Govt-ID.jpg' }), true);
-        assert.deepEqual(govt.body, bytes);
-        assert.equal(govt.headers['Cache-Control'], 'private, no-store');
-        await storage.remove({ ...file, filename: 'govt.jpg', fieldname: 'govtIdImage' });
-        assert.equal(await restartedStorage.send(response(), 'govt.jpg', { privateFile: true }), false);
         const rc = response();
         assert.equal(await restartedStorage.send(rc, 'private.jpg', { privateFile: true, downloadName: 'RC.jpg' }), true);
         assert.deepEqual(rc.body, bytes);

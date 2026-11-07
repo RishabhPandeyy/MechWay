@@ -1,23 +1,26 @@
-# MechWay
+# MechWay Frontend
 
-Static frontend with an Express and MongoDB backend.
+Frontend-only static website for the MechWay college project.
 
-## Local development
+## Run Locally
 
-Install dependencies with `npm ci`, configure `server/.env`, then run `npm start`.
-The application serves `public/` at http://localhost:4000.
+```sh
+python3 -m http.server 4173
+```
 
-## Deployment
+Open `http://127.0.0.1:4173`.
 
-- **Hostinger frontend:** upload the contents of `public/` to `public_html/`, including `.htaccess`.
-- **Render backend:** use the repository root, build with `npm ci --omit=dev`, and start with `npm start`.
-- Configure backend environment variables in Render; environment files and local customer data are excluded from Git.
-- Deploy backend changes before frontend changes. The frontend uses `https://newonwheels.onrender.com` for production API calls.
+## Deploy
 
-Quick restoration enquiries are saved in `restoration_quotes`; detailed restoration requests are saved in `restoration_requests`.
-Detailed restoration submissions require six images: government ID, RC, front, rear, left and right.
+Use this repository root as the static site root. It contains:
 
-## Validation
+- `index.html`
+- `pages/`
+- `assets/`
+- `server/` static admin pages only, not a Node backend
+- `_redirects`
+- `.htaccess`
+- `robots.txt`
+- `sitemap.xml`
 
-Run `npm test`, `npm run check:frontend`, and `npm run check:seo`.
-SEO metadata is maintained in `scripts/seo-config.js` and generated with `npm run seo:update`.
+Backend files, database credentials, `.env` files, server code, tests and deployment notes are intentionally not included.
