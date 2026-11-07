@@ -2,7 +2,7 @@ const escapeHtml = value => String(value ?? '').replace(/&/g, '&amp;').replace(/
 
 const events = {
     restorationEnquiry: ['New bike / car restoration enquiry', {
-        _id: 'Enquiry ID', fullName: 'Name', vehicleType: 'Vehicle', city: 'Location', budgetRange: 'Budget'
+        _id: 'Enquiry ID', fullName: 'Name', whatsappNumber: 'WhatsApp', vehicleType: 'Vehicle', city: 'Location', budgetRange: 'Budget'
     }],
     booking: ['New booking request', {
         _id: 'Booking ID', name: 'Name', phone: 'Phone', vehicleType: 'Vehicle', vehicleBrand: 'Brand',

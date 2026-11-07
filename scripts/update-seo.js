@@ -15,7 +15,7 @@ const country = { '@type': 'Country', name: 'India' };
 const serviceDetails = {
   repair: { name: 'Doorstep bike and car mechanic service in Prayagraj', serviceType: 'Mobile mechanic, roadside assistance and vehicle repair' },
   restoration: { name: 'Bike and car restoration and customization across India', serviceType: 'Vehicle restoration, bike and car customization, modification planning, mechanical rebuild, paint and body work' },
-  'bike-restoration': { name: 'Classic bike restoration in Prayagraj', serviceType: 'Motorcycle engine, paint, chrome, wiring and suspension restoration' }
+  'bike-restoration': { name: 'Bike restoration and customization in India', serviceType: 'Classic motorcycle restoration, engine rebuilds, custom paint, chrome restoration, seat customization, wiring and suspension work' }
 };
 const selectedFiles = new Set(process.argv.slice(2));
 
@@ -51,7 +51,7 @@ function structuredData(page, documentNodes, image) {
     {
       '@type': 'Organization', '@id': companyId, name: 'MechWay', url: origin + '/',
       logo: { '@type': 'ImageObject', url: `${origin}/assets/images/mechwaynew.png` },
-      telephone: '+919794575236', email: 'support@mechway.in', areaServed: page.kind === 'restoration' ? country : city,
+      telephone: '+919794575236', email: 'support@mechway.in', areaServed: page.kind?.includes('restoration') ? country : city,
       sameAs: ['https://www.instagram.com/mechway.in/'],
       contactPoint: { '@type': 'ContactPoint', telephone: '+919794575236', email: 'support@mechway.in', contactType: 'customer support', availableLanguage: ['English', 'Hindi'] }
     },
@@ -69,7 +69,7 @@ function structuredData(page, documentNodes, image) {
   const services = page.kind === 'home' ? ['repair', 'restoration'] : serviceDetails[page.kind] ? [page.kind] : [];
   for (const kind of services) {
     const id = `${url}#${kind}-service`;
-    graph.push({ '@type': 'Service', '@id': id, ...serviceDetails[kind], provider: { '@id': companyId }, areaServed: page.kind === 'restoration' ? country : city, url: page.kind === 'home' ? `${origin}/pages/${kind === 'repair' ? 'mechanic' : 'startrestoration'}.html` : url });
+    graph.push({ '@type': 'Service', '@id': id, ...serviceDetails[kind], provider: { '@id': companyId }, areaServed: kind.includes('restoration') ? country : city, url: page.kind === 'home' ? `${origin}/pages/${kind === 'repair' ? 'mechanic' : 'restore'}.html` : url });
     webpage.mainEntity = [...(webpage.mainEntity || []), { '@id': id }];
   }
   if (page.kind === 'article') {

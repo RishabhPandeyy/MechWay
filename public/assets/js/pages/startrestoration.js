@@ -1,3 +1,5 @@
+const restorationSubmission = createSubmissionRequest('restoration');
+let restorationSubmitting = false;
 
   /* Navbar scroll */
   const navbar = document.getElementById('main-navbar');
@@ -263,6 +265,7 @@
 
   document.getElementById('master-resto-form').addEventListener('submit', async function(e) {
     e.preventDefault();
+    if (restorationSubmitting) return;
 
     const form = e.currentTarget;
     const formData = new FormData();
@@ -315,6 +318,11 @@
       }
     }
 
+    const fingerprint = Array.from(formData.entries()).map(([key, value]) =>
+      [key, value instanceof File ? [value.name, value.size, value.lastModified] : value]);
+    formData.set('requestId', restorationSubmission.id(fingerprint));
+    restorationSubmitting = true;
+    btnSubmit.disabled = true;
     try {
       const response = await fetch(getBackendURL() + '/api/restoration', {
         method: 'POST',
@@ -337,6 +345,7 @@
         throw new Error(result.error || 'Restoration request failed.');
       }
 
+      restorationSubmission.complete();
       const reqId = result.id ? 'MW-REST-' + String(result.id).slice(-6).toUpperCase() : 'MW-REST-' + Math.floor(100000 + Math.random() * 900000);
       document.getElementById('project-id-tag').textContent = reqId;
       form.style.display = 'none';
@@ -345,6 +354,9 @@
       document.getElementById('form-success').classList.add('show');
     } catch (err) {
       alert(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      restorationSubmitting = false;
+      btnSubmit.disabled = false;
     }
   });
 

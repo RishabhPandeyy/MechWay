@@ -19,6 +19,9 @@ async function main() {
             if (row.rcPrivate && row.rcDocument && path.basename(row.rcDocument) === row.rcDocument) {
                 files.set(`rc/${row.rcDocument}`, { filename: row.rcDocument, fieldname: 'rcImage', path: path.resolve(__dirname, '../private-uploads/restoration-rc', row.rcDocument) });
             }
+            if (row.govtIdDocument && path.basename(row.govtIdDocument) === row.govtIdDocument) {
+                files.set(`rc/${row.govtIdDocument}`, { filename: row.govtIdDocument, fieldname: 'govtIdImage', path: path.resolve(__dirname, '../private-uploads/restoration-rc', row.govtIdDocument) });
+            }
         }
         let available = 0;
         let missing = 0;

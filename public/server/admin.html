@@ -100,6 +100,11 @@
           <div class="stat-label">Shop Inquiries</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon teal"><i class="fas fa-file-invoice"></i></div>
+          <div class="stat-value" id="stat-restoration-quotes">--</div>
+          <div class="stat-label">Restoration Quotes</div>
+        </div>
+        <div class="stat-card">
           <div class="stat-icon orange"><i class="fas fa-motorcycle"></i></div>
           <div class="stat-value" id="stat-restorations">--</div>
           <div class="stat-label">Restorations</div>
@@ -117,6 +122,7 @@
         <button class="admin-tab" data-tab="payments"><i class="fas fa-credit-card"></i> Payments <span class="badge" id="badge-payments">0</span></button>
         <button class="admin-tab" data-tab="contacts"><i class="fas fa-envelope"></i> Contacts <span class="badge" id="badge-contacts">0</span></button>
         <button class="admin-tab" data-tab="inquiries"><i class="fas fa-box-open"></i> Inquiries <span class="badge" id="badge-inquiries">0</span></button>
+        <button class="admin-tab" data-tab="restoration-quotes">Restoration Quotes <span class="badge" id="badge-restoration-quotes">0</span></button>
         <button class="admin-tab" data-tab="restorations"><i class="fas fa-motorcycle"></i> Restoration <span class="badge" id="badge-restorations">0</span></button>
         <button class="admin-tab" data-tab="mechanics"><i class="fas fa-wrench"></i> Mechanics <span class="badge" id="badge-mechanics">0</span></button>
         <button class="admin-tab" data-tab="work-slips"><i class="fas fa-file-lines"></i> Work Slips <span class="badge" id="badge-work-slips">0</span></button>
@@ -182,6 +188,21 @@
             <table class="data-table">
               <thead><tr><th>Date</th><th>Product</th><th>Name</th><th>Phone</th><th>Message</th><th>Actions</th></tr></thead>
               <tbody id="tbody-inquiries"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-restoration-quotes">
+        <div class="data-table-wrapper">
+          <div class="table-header">
+            <h3>Restoration Quotes</h3>
+            <input type="search" class="table-search" id="search-restoration-quotes" placeholder="Search quotes..." />
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Name</th><th>WhatsApp</th><th>Vehicle</th><th>Location</th><th>Budget</th><th>Status</th><th>Contact</th></tr></thead>
+              <tbody id="tbody-restoration-quotes"></tbody>
             </table>
           </div>
         </div>
@@ -278,6 +299,6 @@
     <script src="/assets/js/admin/footer.js"></script>
     <script src="/assets/js/admin/common.js"></script>
     <script src="/assets/js/admin/admin.js"></script>
-    <script src="/assets/js/pages/admin.js"></script>
+    <script src="/assets/js/pages/admin.js?v=quotes-1"></script>
   </body>
 </html>

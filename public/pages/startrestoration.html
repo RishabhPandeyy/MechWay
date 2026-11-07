@@ -177,7 +177,7 @@
           "name": "Which photos and documents should I upload?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Upload five images: the vehicle RC, front view, rear view, left side and right side. Include your registration number, vehicle condition and requested work so the team can review your enquiry."
+            "text": "Upload six images: a government ID, the vehicle RC, front view, rear view, left side and right side. Include your registration number, vehicle condition and requested work so the team can review your enquiry."
           }
         },
         {
@@ -381,14 +381,19 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label" for="resto-vehicle-number">Vehicle Number (if available)</label>
-            <input type="text" class="form-input" id="resto-vehicle-number" name="registrationNumber" maxlength="20" autocomplete="off" placeholder="e.g. UP70 AB 1234">
+            <label class="form-label" for="resto-vehicle-number">Vehicle Number<span>*</span></label>
+            <input type="text" class="form-input" id="resto-vehicle-number" name="registrationNumber" required pattern=".*[A-Za-z0-9].*" maxlength="20" autocomplete="off" placeholder="e.g. UP70 AB 1234">
           </div>
         </div>
 
         <div class="form-step-panel" data-step="3">
-          <p class="upload-intro">Upload one clear image for each view (JPG, PNG or WebP, up to 10 MB each).</p>
+          <p class="upload-intro">Upload all six required images: government ID, RC and four vehicle views (JPG, PNG or WebP, up to 10 MB each).</p>
           <div class="restoration-upload-grid">
+            <div class="form-group">
+              <label class="form-label" for="resto-govt-id-image">Any government ID photo<span>*</span></label>
+              <input type="file" class="form-input" id="resto-govt-id-image" name="govtIdImage" accept="image/jpeg,image/png,image/webp" required>
+              <p>Your ID is private and accessible only to the MechWay admin team.</p>
+            </div>
             <div class="form-group">
               <label class="form-label" for="resto-rc-image">RC front image<span>*</span></label>
               <input type="file" class="form-input" id="resto-rc-image" name="rcImage" accept="image/jpeg,image/png,image/webp" required>
@@ -965,7 +970,7 @@
     </details>
     <details data-seo-faq>
       <summary>Which photos and documents should I upload?</summary>
-      <div class="faq-answer"><p>Upload five images: the vehicle RC, front view, rear view, left side and right side. Include your registration number, vehicle condition and requested work so the team can review your enquiry.</p></div>
+      <div class="faq-answer"><p>Upload six images: a government ID, the vehicle RC, front view, rear view, left side and right side. Include your registration number, vehicle condition and requested work so the team can review your enquiry.</p></div>
     </details>
     <details data-seo-faq>
       <summary>Can I submit a restoration request from anywhere in India?</summary>
@@ -1016,7 +1021,8 @@
 
 
 <!-- ═══════ JAVASCRIPT LOGIC ═══════ -->
-<script src="/assets/js/pages/startrestoration.js"></script>
+<script src="/assets/js/submission-request.js?v=1"></script>
+<script src="/assets/js/pages/startrestoration.js?v=request-2"></script>
 <script src="/assets/js/booking-assistant.js"></script>
 </body>
 </html>

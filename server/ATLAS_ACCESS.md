@@ -3,7 +3,7 @@
 ## Current Database Connection
 Your app is connected to **MongoDB Atlas (Cloud)**, not local MongoDB.
 
-Connection String: `mongodb+srv://rishabhmech:mechucer@cluster0.kdiixo5.mongodb.net/?appName=Cluster0`
+Connection String: `mongodb+srv://USER:PASSWORD.example.mongodb.net/mechway?retryWrites=true&w=majority`
 
 ## How to View Your Data
 
@@ -22,13 +22,13 @@ Connection String: `mongodb+srv://rishabhmech:mechucer@cluster0.kdiixo5.mongodb.
 1. Download MongoDB Compass
 2. Use this connection string:
    ```
-   mongodb+srv://rishabhmech:mechucer@cluster0.kdiixo5.mongodb.net/?appName=Cluster0
+   mongodb+srv://USER:PASSWORD.example.mongodb.net/mechway?retryWrites=true&w=majority
    ```
 3. Connect and browse your databases
 
 ### Method 3: Command Line (MongoDB Shell)
 ```bash
-mongosh "mongodb+srv://rishabhmech:mechucer@cluster0.kdiixo5.mongodb.net/?appName=Cluster0"
+mongosh "mongodb+srv://USER:PASSWORD.example.mongodb.net/mechway?retryWrites=true&w=majority"
 ```
 Then:
 ```javascript

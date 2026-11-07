@@ -45,6 +45,29 @@
             overflow: hidden;
         }
 
+        .maintenance-notice {
+            position: relative;
+            z-index: 1001;
+            padding: 20px 24px;
+            background: #b42318;
+            color: #fff;
+            text-align: center;
+        }
+
+        .maintenance-notice strong,
+        .maintenance-notice span {
+            display: block;
+        }
+
+        .maintenance-notice strong {
+            font-size: clamp(18px, 3vw, 24px);
+        }
+
+        .maintenance-notice span {
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
         img {
             display: block;
             width: 100%;
